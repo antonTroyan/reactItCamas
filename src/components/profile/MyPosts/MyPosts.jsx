@@ -5,26 +5,27 @@ import Post from './Post/Post';
 const MyPosts = () => {
 
     let postData = [
-        {id: 1, message: 'hello to all!!' ,likesCount:15},
-        {id: 2, message: 'my name is anton' ,likesCount:100}
+        { id: 1, message: 'hello to all!!', likesCount: 15 },
+        { id: 2, message: 'my name is anton', likesCount: 100 }
     ]
 
-
+    let postElements = postData.map((element) => {
+        return <Post message={element.message} likesCount={element.likesCount} />
+    })
 
     return (
         <div className={s.postsBlock}>
             <h3>my posts</h3>
             <div>
                 <div>
-                    <textarea></textarea> 
+                    <textarea></textarea>
                 </div>
                 <div>
                     <button>Add post</button>
                 </div>
             </div>
             <div className={s.posts}>
-                <Post message={postData[0].message} likesamount={postData[0].likesCount} />
-                <Post message={postData[1].message} likesamount={postData[1].likesCount} />
+                {postElements}
             </div>
         </div>
     )
