@@ -36,5 +36,4 @@ yarn-error.log*
 .idea/sonarlint/issuestore/d/3/d3c01e0eb45b21f04df299e8ee8f58367e722e66
 .idea/sonarlint/issuestore/f/4/f43ecdf8d666ee908aacce037b4cd72159e4741b
 .idea/sonarlint/issuestore/f/9/f900edc44cb929c2267a16100a32851f6d5b477d
-.gitignore
-.gitignore
+.idea/sonarlint/
