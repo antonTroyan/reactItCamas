@@ -5,26 +5,32 @@ import Post from './Post/Post';
 const MyPosts = (props) => {
 
     let postElements = props.profilePage.posts.map((element) => {
-        return <Post message={element.message} likesCount={element.likesCount} />
+        return <Post message={element.message}
+            likesCount={element.likesCount} />
     });
 
     let addPost = () => {
-        props.addPost();
+        props.dispatch({ type: 'ADD-POST' });
+    }
+
+    let onPostChange = () => {
+        let text = newPostElement.current.value;
+        props.dispatch({
+            type: 'UPDATE_NEW_POST_TEXT',
+            newText: text
+        });
     }
 
     let newPostElement = React.createRef();
 
-    let onPostChange = () => {
-        let text = newPostElement.current.value;
-        props.updateNewPostText(text);
-    }
-
     return (
         <div className={s.postsBlock}>
-            <h3>my posts</h3>
+            <h3>My posts</h3>
             <div>
                 <div>
-                    <textarea onChange={onPostChange} ref={newPostElement} value={props.profilePage.newPostText}></textarea>
+                    <textarea onChange={onPostChange}
+                        ref={newPostElement}
+                        value={props.profilePage.newPostText}></textarea>
                 </div>
                 <div>
                     <button onClick={addPost}>Add post</button>
