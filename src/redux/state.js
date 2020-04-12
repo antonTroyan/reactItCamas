@@ -1,5 +1,7 @@
 const ADD_POST = 'ADD-POST';
 const UPDATE_NEW_POST_TEXT = 'UPDATE_NEW_POST_TEXT';
+const UPDATE_NEW_MESSAGE_BODY = 'UPDATE_NEW_MESSAGE_BODY';
+const SEND_MESSAGE = 'SEND_MESSAGE';
 
 let store = {
 
@@ -24,7 +26,9 @@ let store = {
                 { id: 1, message: "hi" },
                 { id: 1, message: "How are you" },
                 { id: 1, message: "Yo" }
-            ]
+            ],
+
+            newMessageBody : ""
         }
     },
 
@@ -43,7 +47,6 @@ let store = {
 
     dispatch(action) {
         if (action.type === ADD_POST) {
-
             let newPost = {
                 id: 3,
                 message: this._state.profilePage.newPostText,
@@ -51,14 +54,20 @@ let store = {
             };
             this._state.profilePage.posts.push(newPost);
             this._state.profilePage.newPostText = '';
-            this._callSubscriber(this._state);
 
         } else if (action.type === UPDATE_NEW_POST_TEXT) {
-
             this._state.profilePage.newPostText = action.newText;
-            this._callSubscriber(this._state);
+
+        } else if (action.type === UPDATE_NEW_MESSAGE_BODY) {
+            this._state.messagesPage.newMessageBody = action.body;
+
+        } else if (action.type === SEND_MESSAGE) {
+            let body = this._state.messagesPage.newMessageBody;
+            this._state.messagesPage.messages.push({ id: 6, message: body });
+            this._state.messagesPage.newMessageBody = '';
 
         }
+        this._callSubscriber(this._state);
     }
 };
 
@@ -72,6 +81,19 @@ export const updateNewPostTextActionCreator = (text) => {
     return {
         type: UPDATE_NEW_POST_TEXT,
         newText: text
+    }
+};
+
+export const updateNewMessageBodyActionCreator = (body) => {
+    return {
+        type: UPDATE_NEW_MESSAGE_BODY,
+        body: body
+    }
+};
+
+export const sendMessageCreator = () => {
+    return {
+        type: SEND_MESSAGE
     }
 };
 
