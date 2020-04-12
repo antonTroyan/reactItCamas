@@ -12,12 +12,12 @@ const MyPosts = (props) => {
 
     let addPost = () => {
         props.dispatch(addPostActionCreator());
-    }
+    };
 
     let onPostChange = () => {
         let text = newPostElement.current.value;
         props.dispatch(updateNewPostTextActionCreator(text));
-    }
+    };
 
     let newPostElement = React.createRef();
 
@@ -39,6 +39,6 @@ const MyPosts = (props) => {
             </div>
         </div>
     )
-}
+};
 
 export default MyPosts;

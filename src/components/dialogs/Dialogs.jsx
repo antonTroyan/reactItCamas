@@ -9,7 +9,7 @@ const Dialogs = (props) => {
 
     let messagesElements = props.messagesData.map((msg) => {
         return <Message message={msg.message} />
-    })
+    });
 
     let addMessage = () => {
         let msgText = newMessageRef.current.value;
