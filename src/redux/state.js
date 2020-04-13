@@ -63,8 +63,8 @@ let store = {
 
         } else if (action.type === SEND_MESSAGE) {
             let body = this._state.messagesPage.newMessageBody;
-            this._state.messagesPage.messages.push({ id: 6, message: body });
             this._state.messagesPage.newMessageBody = '';
+            this._state.messagesPage.messages.push({ id: 6, message: body });
 
         }
         this._callSubscriber(this._state);
