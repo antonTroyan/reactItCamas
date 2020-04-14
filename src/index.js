@@ -4,15 +4,14 @@ import './index.css';
 import App from './App';
 import store from './redux/redux-store'
 
-let rerenderEntireTree = (state) => {
-    ReactDOM.render(<App state={state} dispatch={store.dispatch.bind(store)}/>, 
+let rerenderEntireTree = (store) => {
+    debugger
+    ReactDOM.render(<App store={store} dispatch={store.dispatch.bind(store)}/>, 
         document.getElementById('root'));
 };
 
-rerenderEntireTree(store.getState());
+rerenderEntireTree(store);
 
 store.subscribe(() => {
-
-    let state = store.getState();
-    rerenderEntireTree(state);
+    rerenderEntireTree(store);
 });

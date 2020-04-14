@@ -6,22 +6,22 @@ import { sendMessageActionCreator, updateNewMessageBodyActionCreator } from '../
 
 const Dialogs = (props) => {
 
-    let dialogsElements = props.state.messagesPage
+    let dialogsElements = props.store.getState().messagesPage
         .dialogs
         .map(element => <DialogItem name={element.name} id={element.id} />)
 
-    let messagesElements = props.state.messagesPage
+    let messagesElements = props.store.getState().messagesPage
         .messages.map((msg) => {
             return <Message message={msg.message} />
         });
 
     let onNewMessageChange = (event) => {
         let msgText = event.target.value;
-        props.dispatch(updateNewMessageBodyActionCreator(msgText));
+        props.store.dispatch(updateNewMessageBodyActionCreator(msgText));
     };
 
     let onSendMessageClick = (event) => {
-        props.dispatch(sendMessageActionCreator());
+        props.store.dispatch(sendMessageActionCreator());
     };
 
     return (
@@ -36,7 +36,7 @@ const Dialogs = (props) => {
                     <div>
                         <textarea placeholder="Enter your message"
                             onChange={onNewMessageChange}
-                            value={props.state.messagesPage.newMessageBody}>
+                            value={props.store.getState().messagesPage.newMessageBody}>
                         </textarea>
                     </div>
                     <div>
