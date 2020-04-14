@@ -1,7 +1,6 @@
-const ADD_POST = 'ADD-POST';
-const UPDATE_NEW_POST_TEXT = 'UPDATE_NEW_POST_TEXT';
-const UPDATE_NEW_MESSAGE_BODY = 'UPDATE_NEW_MESSAGE_BODY';
-const SEND_MESSAGE = 'SEND_MESSAGE';
+import profileReducer from "./profile-reducer";
+import dialogsReducer from "./dialogs-reducer";
+import sidebarReducer from "./sidebar-reducer";
 
 let store = {
 
@@ -29,7 +28,9 @@ let store = {
             ],
 
             newMessageBody : ""
-        }
+        },
+
+        sidebar: {}
     },
 
     _callSubscriber() {
@@ -46,54 +47,11 @@ let store = {
     },
 
     dispatch(action) {
-        if (action.type === ADD_POST) {
-            let newPost = {
-                id: 3,
-                message: this._state.profilePage.newPostText,
-                likesCount: 5
-            };
-            this._state.profilePage.posts.push(newPost);
-            this._state.profilePage.newPostText = '';
+        this._state.profilePage = profileReducer(this._state.profilePage, action);
+        this._state.messagesPage = dialogsReducer(this._state.messagesPage, action);
+        this._state.sidebar = sidebarReducer(this._state.sidebar, action);
 
-        } else if (action.type === UPDATE_NEW_POST_TEXT) {
-            this._state.profilePage.newPostText = action.newText;
-
-        } else if (action.type === UPDATE_NEW_MESSAGE_BODY) {
-            this._state.messagesPage.newMessageBody = action.body;
-
-        } else if (action.type === SEND_MESSAGE) {
-            let body = this._state.messagesPage.newMessageBody;
-            this._state.messagesPage.newMessageBody = '';
-            this._state.messagesPage.messages.push({ id: 6, message: body });
-
-        }
         this._callSubscriber(this._state);
-    }
-};
-
-export const addPostActionCreator = () => {
-    return {
-        type: ADD_POST 
-    }
-};
-
-export const updateNewPostTextActionCreator = (text) => {
-    return {
-        type: UPDATE_NEW_POST_TEXT,
-        newText: text
-    }
-};
-
-export const updateNewMessageBodyActionCreator = (body) => {
-    return {
-        type: UPDATE_NEW_MESSAGE_BODY,
-        body: body
-    }
-};
-
-export const sendMessageCreator = () => {
-    return {
-        type: SEND_MESSAGE
     }
 };
 
