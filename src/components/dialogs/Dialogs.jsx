@@ -6,7 +6,6 @@ import { sendMessageActionCreator, updateNewMessageBodyActionCreator } from '../
 
 const Dialogs = (props) => {
 
-    debugger
     let dialogsElements = props.messagesPage
         .dialogs
         .map(element => <DialogItem name={element.name} id={element.id} />)
