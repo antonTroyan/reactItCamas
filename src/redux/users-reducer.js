@@ -4,7 +4,7 @@ const SET_USERS = 'SET_USERS';
 
 let initialState = {
     users: []
-}
+};
 
 export const usersReducer = (state = initialState, action) => {
 
@@ -13,27 +13,27 @@ export const usersReducer = (state = initialState, action) => {
             debugger
             return {
                 ...state,
-                users: [...state.users],
+
                 users: state.users.map(user => {
                     if (user.id === action.userId) {
                         return { ...user, isFollowed: true };
                     }
                     return user;
                 })
-            }
+            };
 
         case UNFOLLOW:
             debugger
             return {
                 ...state,
-                users: [...state.users],
+
                 users: state.users.map(user => {
                     if (user.id === action.userId) {
                         return { ...user, isFollowed: false };
                     }
                     return user;
                 })
-            }
+            };
 
         case SET_USERS: {
             return { ...state, users: [...state.users, ...action.users] };

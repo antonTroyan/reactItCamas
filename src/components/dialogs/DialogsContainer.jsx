@@ -8,7 +8,7 @@ let mapStateToProps = (state) => {
         messagesPage: state.messagesPage,
         newMessageBody: state.messagesPage.newMessageBody
     }
-}
+};
 
 let mapDispatchToProps = (dispatch) => {
     return {
@@ -19,7 +19,7 @@ let mapDispatchToProps = (dispatch) => {
             dispatch(sendMessageActionCreator());
         }
     }
-}
+};
 
 const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs);
 

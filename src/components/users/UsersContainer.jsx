@@ -7,7 +7,7 @@ let mapStateToProps = (state) => {
     return {
         users : state.usersPage.users
     }
-}
+};
 
 let mapDispatchToProps = (dispatch) => {
     return {
@@ -21,7 +21,7 @@ let mapDispatchToProps = (dispatch) => {
             dispatch(setUsersActionCreator(users));
         }
     }
-}
+};
 
 const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(Users);
 
