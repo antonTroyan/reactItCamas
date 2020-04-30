@@ -8,7 +8,7 @@ import {BrowserRouter, Route} from 'react-router-dom';
 import UsersContainer from './components/users/UsersContainer';
 
 
-const App = (props) => {
+const App = () => {
     return (
         <BrowserRouter>
             <div className='app-wrapper'>
