@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./users.module.css";
 import noAvatarPhoto from "../../assets/images/no-avatar.png";
+import {NavLink} from "react-router-dom";
 
 let Users = (props) => {
 
@@ -31,8 +32,10 @@ let Users = (props) => {
                     <div key={user.id}>
                         <span>
                             <div>
-                                <img src={user.photos.small != null ? user.photos.small : noAvatarPhoto}
-                                     className={styles.userPhoto}/>
+                                <NavLink to={'/profile/' + user.id}>
+                                    <img src={user.photos.small != null ? user.photos.small : noAvatarPhoto}
+                                        className={styles.userPhoto}/>
+                                </NavLink>
                             </div>
                         </span>
                         <span>
