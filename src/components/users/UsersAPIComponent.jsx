@@ -1,7 +1,6 @@
 import React from 'react';
 import * as axios from "axios";
 import Users from "./Users";
-import loader from "../../assets/images/loader.gif";
 import Preloader from "../common/preloader/preloader";
 
 class UsersAPIComponent extends React.Component {

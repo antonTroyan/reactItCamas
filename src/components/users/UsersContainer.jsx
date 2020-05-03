@@ -18,29 +18,15 @@ let mapStateToProps = (state) => {
     }
 };
 
-let mapDispatchToProps = (dispatch) => {
-    return {
-        follow: (userId) => {
-            dispatch(followActionCreator(userId));
-        },
-        unfollow: (userId) => {
-            dispatch(unfollowActionCreator(userId));
-        },
-        setUsers: (users) => {
-            dispatch(setUsersActionCreator(users));
-        },
-        setCurrentPage : (pageNumber) => {
-            dispatch(setCurrentPageActionCreator(pageNumber))
-        },
-        setTotalUsersCount : (totalCount) => {
-            dispatch(setUsersTotalCountActionCreator(totalCount))
-        },
-        setIsFetching : (isFetchingValue) => {
-            dispatch(setIsFetchingActionCreator(isFetchingValue))
-        }
-    }
-};
+const UsersContainer = connect(mapStateToProps, {
 
-const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UsersAPIComponent);
+    follow             : followActionCreator,
+    unfollow           : unfollowActionCreator,
+    setUsers           : setUsersActionCreator,
+    setCurrentPage     : setCurrentPageActionCreator,
+    setTotalUsersCount : setUsersTotalCountActionCreator,
+    setIsFetching      : setIsFetchingActionCreator
+
+})(UsersAPIComponent);
 
 export default UsersContainer
