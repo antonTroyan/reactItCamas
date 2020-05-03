@@ -5,7 +5,7 @@ import {
     followActionCreator,
     unfollowActionCreator,
     setUsersActionCreator,
-    setCurrentPageActionCreator, setUsersTotalCountActionCreator
+    setCurrentPageActionCreator, setUsersTotalCountActionCreator, setIsFetchingActionCreator
 } from '../../redux/users-reducer';
 
 let mapStateToProps = (state) => {
@@ -13,7 +13,8 @@ let mapStateToProps = (state) => {
         users           : state.usersPage.users,
         pageSize        : state.usersPage.pageSize,
         totalUsersCount : state.usersPage.totalUsersCount,
-        currentPage     : state.usersPage.currentPage
+        currentPage     : state.usersPage.currentPage,
+        isFetching      : state.usersPage.isFetching
     }
 };
 
@@ -33,6 +34,9 @@ let mapDispatchToProps = (dispatch) => {
         },
         setTotalUsersCount : (totalCount) => {
             dispatch(setUsersTotalCountActionCreator(totalCount))
+        },
+        setIsFetching : (isFetchingValue) => {
+            dispatch(setIsFetchingActionCreator(isFetchingValue))
         }
     }
 };
