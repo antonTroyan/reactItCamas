@@ -1,5 +1,4 @@
 import React from 'react';
-import * as axios from "axios";
 import Users from "./Users";
 import Preloader from "../common/preloader/preloader";
 import {usersAPI} from "../../api/api";
@@ -26,6 +25,26 @@ class UsersAPIComponent extends React.Component {
             });
     };
 
+    startFollow = (userId) => {
+        this.props.setIsFollowingInProgress(true, userId);
+        usersAPI.followSpecialUser(userId).then(response => {
+            if (response.resultCode === 0) {
+                this.props.follow(userId)
+            }
+        });
+        this.props.setIsFollowingInProgress(false, userId);
+    };
+
+    stopFollow = (userId) => {
+        this.props.setIsFollowingInProgress(true, userId);
+        usersAPI.unFollowSpecialUser(userId).then(response => {
+            if (response.resultCode === 0) {
+                this.props.unfollow(userId)
+            }
+        });
+        this.props.setIsFollowingInProgress(false, userId);
+    };
+
     render() {
         return <>
             {this.props.isFetching ? <Preloader/> : null}
@@ -34,8 +53,9 @@ class UsersAPIComponent extends React.Component {
                    currentPage={this.props.currentPage}
                    onPageChanged={this.onPageChanged}
                    users={this.props.users}
-                   follow={this.props.follow}
-                   unfollow={this.props.unfollow}/>
+                   startFollow={this.startFollow}
+                   stopFollow={this.stopFollow}
+                   isFollowingInProgress={this.props.isFollowingInProgress}/>
         </>
     }
 }

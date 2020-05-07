@@ -2,9 +2,6 @@ import React from "react";
 import styles from "./users.module.css";
 import noAvatarPhoto from "../../assets/images/no-avatar.png";
 import {NavLink} from "react-router-dom";
-import * as axios from "axios";
-import {usersAPI} from "../../api/api";
-
 
 let Users = (props) => {
 
@@ -42,19 +39,14 @@ let Users = (props) => {
                         </span>
                         <span>
                             <div>
-                                {user.followed ? <button onClick={() => {
-                                    usersAPI.unFollowSpecialUser(user.id).then(response => {
-                                            if (response.resultCode === 0) {
-                                                props.unfollow(user.id)
-                                            }
-                                        });
-                                    }}>Followed</button> : <button onClick={() => {
-                                    usersAPI.followSpecialUser(user.id).then(response => {
-                                            if (response.resultCode === 0) {
-                                                props.follow(user.id)
-                                            }
-                                        });
-                                    }}>Unfollowed</button>
+                                {user.followed
+                                    ? <button onClick={() => {props.stopFollow(user.id)}}
+                                              disabled={props.isFollowingInProgress.some(id => id === user.id)}
+                                    >Followed</button>
+
+                                    : <button onClick={() => {props.startFollow(user.id)}}
+                                              disabled={props.isFollowingInProgress.some(id => id === user.id)}
+                                    >Unfollowed</button>
                                 }
                             </div>
                         </span>
