@@ -1,3 +1,5 @@
+import {usersAPI} from "../api/api";
+
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
 const SET_USERS = 'SET_USERS';
@@ -86,5 +88,52 @@ export const setIsFollowingInProgressActionCreator = (isFollowingInProgressValue
     type: SET_FOLLOWING_PROGRESS,
     isFollowingInProgressValue, userId
 });
+
+
+// special container that allow us to pass data to inner function [currentPage and pageSize]
+export const getUsersThunkCreator = (currentPage, pageSize) => {
+
+    return (dispatch) => {
+        dispatch(setCurrentPageActionCreator(currentPage));
+        dispatch(setIsFetchingActionCreator(true));
+        usersAPI.getAllUsers(currentPage, pageSize)
+            .then(response => {
+                dispatch(setIsFetchingActionCreator(false));
+                dispatch(setUsersActionCreator(response.items));
+                dispatch(setUsersTotalCountActionCreator(response.totalCount));
+            });
+    }
+};
+
+
+export const followThunkCreator = (userId) => {
+
+    return (dispatch) => {
+        dispatch(setIsFollowingInProgressActionCreator(true, userId))
+        usersAPI.followSpecialUser(userId)
+            .then(response => {
+                if (response.resultCode === 0) {
+                    dispatch(followActionCreator(userId))
+                }
+            });
+        dispatch(setIsFollowingInProgressActionCreator(false, userId));
+    }
+};
+
+
+export const unFollowThunkCreator = (userId) => {
+
+    return (dispatch) => {
+        dispatch(setIsFollowingInProgressActionCreator(true, userId))
+        usersAPI.unFollowSpecialUser(userId)
+            .then(response => {
+                if (response.resultCode === 0) {
+                    dispatch(unfollowActionCreator(userId))
+                }
+            });
+        dispatch(setIsFollowingInProgressActionCreator(false, userId));
+    }
+};
+
 
 export default usersReducer;

@@ -8,7 +8,7 @@ import {
     setCurrentPageActionCreator,
     setUsersTotalCountActionCreator,
     setIsFetchingActionCreator,
-    setIsFollowingInProgressActionCreator
+    setIsFollowingInProgressActionCreator, getUsersThunkCreator, followThunkCreator, unFollowThunkCreator
 } from '../../redux/users-reducer';
 
 let mapStateToProps = (state) => {
@@ -32,7 +32,10 @@ const UsersContainer = connect(mapStateToProps, {
     setTotalUsersCount : setUsersTotalCountActionCreator,
     setIsFetching      : setIsFetchingActionCreator,
 
-    setIsFollowingInProgress : setIsFollowingInProgressActionCreator
+    setIsFollowingInProgress : setIsFollowingInProgressActionCreator,
+    getUsersThunkCreator     : getUsersThunkCreator,
+    followThunkCreator       : followThunkCreator,
+    unFollowThunkCreator     : unFollowThunkCreator
 
 })(UsersAPIComponent);
 
