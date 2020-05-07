@@ -3,6 +3,8 @@ import styles from "./users.module.css";
 import noAvatarPhoto from "../../assets/images/no-avatar.png";
 import {NavLink} from "react-router-dom";
 import * as axios from "axios";
+import {usersAPI} from "../../api/api";
+
 
 let Users = (props) => {
 
@@ -41,27 +43,14 @@ let Users = (props) => {
                         <span>
                             <div>
                                 {user.followed ? <button onClick={() => {
-                                        axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${user.id}`, {
-                                            withCredentials: true,
-                                            headers: {
-                                                "API-KEY": "148c700a-9ca0-485a-a9ff-5c4af60c5ecb"
-                                            }
-
-                                        }).then(response => {
-                                            if (response.data.resultCode === 0) {
+                                    usersAPI.unFollowSpecialUser(user.id).then(response => {
+                                            if (response.resultCode === 0) {
                                                 props.unfollow(user.id)
                                             }
                                         });
                                     }}>Followed</button> : <button onClick={() => {
-                                        // post request have with credentials as 3 parameter
-                                        axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${user.id}`, {}, {
-                                            withCredentials: true,
-                                            headers: {
-                                                "API-KEY": "148c700a-9ca0-485a-a9ff-5c4af60c5ecb"
-                                            }
-
-                                        }).then(response => {
-                                            if (response.data.resultCode === 0) {
+                                    usersAPI.followSpecialUser(user.id).then(response => {
+                                            if (response.resultCode === 0) {
                                                 props.follow(user.id)
                                             }
                                         });

@@ -2,16 +2,16 @@ import React from 'react';
 import * as axios from "axios";
 import Users from "./Users";
 import Preloader from "../common/preloader/preloader";
+import {usersAPI} from "../../api/api";
 
 class UsersAPIComponent extends React.Component {
 
     componentDidMount() {
         this.props.setIsFetching(true);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`,
-            {withCredentials : true})
+        usersAPI.getAllUsers(this.props.currentPage, this.props.pageSize)
             .then(response => {
-                this.props.setUsers(response.data.items);
-                this.props.setTotalUsersCount(response.data.totalCount);
+                this.props.setUsers(response.items);
+                this.props.setTotalUsersCount(response.totalCount);
                 this.props.setIsFetching(false);
             });
     }
@@ -19,9 +19,9 @@ class UsersAPIComponent extends React.Component {
     onPageChanged = (pageNumber) => {
         this.props.setCurrentPage(pageNumber);
         this.props.setIsFetching(true);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`)
+        usersAPI.getAllUsers(pageNumber, this.props.pageSize)
             .then(response => {
-                this.props.setUsers(response.data.items);
+                this.props.setUsers(response.items);
                 this.props.setIsFetching(false);
             });
     };
