@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import HeaderApiComponent from "./HeaderApiComponent";
-import {setUserAuthDataActionCreator} from "../../redux/auth-reducer";
+import {getUserDataThunkCreator} from "../../redux/auth-reducer";
+
 
 
 let mapStateToProps = (state) => {
@@ -12,7 +13,7 @@ let mapStateToProps = (state) => {
 };
 
 const HeaderContainer = connect(mapStateToProps, {
-    setUserAuthData : setUserAuthDataActionCreator
+    getUserDataThunkCreator : getUserDataThunkCreator
 })(HeaderApiComponent);
 
 export default HeaderContainer

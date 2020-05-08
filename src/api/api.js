@@ -25,16 +25,23 @@ export const usersAPI = {
     },
 
     followSpecialUser(userId) {
-        return instance.post(`https://social-network.samuraijs.com/api/1.0/follow/${userId}`)
+        return instance.post(`follow/${userId}`)
             .then(response => {
                 return response.data;
             })
     },
 
     unFollowSpecialUser(userId) {
-        return instance.delete(`https://social-network.samuraijs.com/api/1.0/follow/${userId}`)
+        return instance.delete(`follow/${userId}`)
             .then(response => {
                 return response.data;
             })
+    }
+};
+
+export const authApi = {
+
+    authorizeMe() {
+        return instance.get(`auth/me`)
     }
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ProfileAPIComponent from "./ProfileAPIComponent";
-import {setUserProfileActionCreator} from "../../redux/profile-reducer";
+import {getUserProfileThunkCreator} from "../../redux/profile-reducer";
 import {withRouter} from "react-router-dom";
 
 
@@ -17,7 +17,7 @@ let WithUrlDataContainerComponent = withRouter(ProfileAPIComponent);
 
 const ProfileContainer = connect(mapStateToProps, {
 
-    setUserProfile : setUserProfileActionCreator
+    getUserProfileThunkCreator : getUserProfileThunkCreator
 
 })(WithUrlDataContainerComponent);
 

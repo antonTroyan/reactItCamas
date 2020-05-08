@@ -1,6 +1,5 @@
 import React from 'react';
 import Profile from "./Profile";
-import {usersAPI} from "../../api/api";
 
 class ProfileAPIComponent extends React.Component {
 
@@ -9,9 +8,7 @@ class ProfileAPIComponent extends React.Component {
         if (!userId){
             userId = 2;
         }
-        usersAPI.downloadUserProfile(userId).then(response => {
-            this.props.setUserProfile(response);
-        });
+        this.props.getUserProfileThunkCreator(userId);
     }
 
     render() {
