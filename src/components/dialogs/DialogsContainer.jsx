@@ -5,8 +5,9 @@ import Dialogs from './Dialogs';
 
 let mapStateToProps = (state) => {
     return {
-        messagesPage: state.messagesPage,
-        newMessageBody: state.messagesPage.newMessageBody
+        messagesPage   : state.messagesPage,
+        newMessageBody : state.messagesPage.newMessageBody,
+        isAuth         : state.authReducer.isAuth
     }
 };
 
