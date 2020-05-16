@@ -18,8 +18,8 @@ export const withAuthRedirect = (Component) => {
         }
     }
     
-    // additional container to add state about auth 
+    // additional wrapper to add info [state] about auth
     let ConnectedAuthRedirectComponent = connect(mapStateToPropsForRedirect)(RedirectComponent);
 
     return ConnectedAuthRedirectComponent;
-}
+};
