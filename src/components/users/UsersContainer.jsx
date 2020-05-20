@@ -10,33 +10,40 @@ import {
     setIsFetchingActionCreator,
     setIsFollowingInProgressActionCreator, getUsersThunkCreator, followThunkCreator, unFollowThunkCreator
 } from '../../redux/users-reducer';
+import { compose } from 'redux';
+import { withAuthRedirect } from '../../hoc/withAuthRedirect';
 
 let mapStateToProps = (state) => {
     return {
-        users           : state.usersPage.users,
-        pageSize        : state.usersPage.pageSize,
-        totalUsersCount : state.usersPage.totalUsersCount,
-        currentPage     : state.usersPage.currentPage,
-        isFetching      : state.usersPage.isFetching,
+        users: state.usersPage.users,
+        pageSize: state.usersPage.pageSize,
+        totalUsersCount: state.usersPage.totalUsersCount,
+        currentPage: state.usersPage.currentPage,
+        isFetching: state.usersPage.isFetching,
 
-        isFollowingInProgress : state.usersPage.isFollowingInProgress
+        isFollowingInProgress: state.usersPage.isFollowingInProgress
     }
 };
 
-const UsersContainer = connect(mapStateToProps, {
 
-    follow             : followActionCreator,
-    unfollow           : unfollowActionCreator,
-    setUsers           : setUsersActionCreator,
-    setCurrentPage     : setCurrentPageActionCreator,
-    setTotalUsersCount : setUsersTotalCountActionCreator,
-    setIsFetching      : setIsFetchingActionCreator,
+export default compose(
+    
+    connect(mapStateToProps, {
 
-    setIsFollowingInProgress : setIsFollowingInProgressActionCreator,
-    getUsersThunkCreator     : getUsersThunkCreator,
-    followThunkCreator       : followThunkCreator,
-    unFollowThunkCreator     : unFollowThunkCreator
+        follow: followActionCreator,
+        unfollow: unfollowActionCreator,
+        setUsers: setUsersActionCreator,
+        setCurrentPage: setCurrentPageActionCreator,
+        setTotalUsersCount: setUsersTotalCountActionCreator,
+        setIsFetching: setIsFetchingActionCreator,
 
-})(UsersAPIComponent);
+        setIsFollowingInProgress: setIsFollowingInProgressActionCreator,
+        getUsersThunkCreator: getUsersThunkCreator,
+        followThunkCreator: followThunkCreator,
+        unFollowThunkCreator: unFollowThunkCreator
 
-export default UsersContainer
+    }),
+
+    withAuthRedirect
+
+)(UsersAPIComponent);
