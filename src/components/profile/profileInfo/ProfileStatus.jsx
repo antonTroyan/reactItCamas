@@ -19,8 +19,9 @@ class ProfileStatus extends React.Component {
         })
     }
 
-    deactivateEditMode () {
-
+    // declaring method this way we avoid necessity of binding
+    deactivateEditMode = () => {
+        debugger
         this.setState({
             editMode : false
         })
@@ -37,7 +38,7 @@ class ProfileStatus extends React.Component {
 
                 {this.state.editMode &&  
                     <div>
-                        <input autoFocus={true} onBlur={this.deactivateEditMode.bind(this)} value={this.props.status}></input>
+                        <input autoFocus={true} onBlur={this.deactivateEditMode} value={this.props.status}></input>
                     </div>
                 }
             </div>
