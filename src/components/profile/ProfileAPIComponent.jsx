@@ -7,9 +7,10 @@ class ProfileAPIComponent extends React.Component {
     componentDidMount() {
         let userId = this.props.match.params.userId;
         if (!userId){
-            userId = 2;
+            userId = 7806 ;
         }
         this.props.getUserProfileThunkCreator(userId);
+        this.props.getUserStatusThunkCreator(userId);
     }
 
     render() {
@@ -20,7 +21,10 @@ class ProfileAPIComponent extends React.Component {
         /// {...this.props} open props and send them
         /// as attributes [pass all attributes that come to container]
         return <Profile {...this.props}
-                        profile={this.props.profile}/>
+                        profile={this.props.profile}
+                        status={this.props.status}
+                        updateStatus={this.props.updateUserStatusThunkCreator}
+        />
     }
 }
 

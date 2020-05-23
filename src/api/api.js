@@ -17,13 +17,6 @@ export const usersAPI = {
             });
     },
 
-    downloadUserProfile(userId) {
-        return instance.get(`profile/${userId}`)
-            .then(response => {
-                return response.data;
-            })
-    },
-
     followSpecialUser(userId) {
         return instance.post(`follow/${userId}`)
             .then(response => {
@@ -43,5 +36,27 @@ export const authApi = {
 
     authorizeMe() {
         return instance.get(`auth/me`)
+    }
+};
+
+export const profileApi = {
+
+    downloadUserProfile(userId) {
+        return instance.get(`profile/${userId}`)
+            .then(response => {
+                return response.data;
+            })
+    },
+
+    downloadUserStatus(userId) {
+        return instance.get(`profile/status/${userId}`);
+    },
+
+    // server knows which status to update using session
+    // according API we need to send json object with key - status
+    updateUserStatus(statusValue) {
+        return instance.put('profile/status',
+            {status: statusValue}
+        );
     }
 };
