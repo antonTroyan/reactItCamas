@@ -4,7 +4,7 @@ import React from "react";
 let Preloader = () => {
     return (
         <div>
-            <img src={loader} style={{width: 50, height: 50}}/>
+            <img src={loader} alt={"No gif available"} style={{width: 50, height: 50}}/>
         </div>
     )
 };
