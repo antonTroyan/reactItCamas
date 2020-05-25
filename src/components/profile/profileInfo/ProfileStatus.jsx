@@ -34,6 +34,18 @@ class ProfileStatus extends React.Component {
         this.props.updateStatus(this.state.status);
     };
 
+    // this method called when local or global change changed [it calls rerender]
+    // created to add sync
+    // 1 We render profile with old status from global state, because in some cases page reder before request returns
+    // 2 In this way when new status come, it call method, and it set new value in local state
+    componentDidUpdate (prevProps, prevState) {
+        if (prevProps.status !== this.props.status){
+            this.setState({
+                status : this.props.status
+            })
+        }
+    }
+
     render() {
         return (
             <div>Status -
