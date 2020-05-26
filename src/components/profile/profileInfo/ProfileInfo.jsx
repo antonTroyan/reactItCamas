@@ -13,7 +13,7 @@ const ProfileInfo = (props) => {
         <div>
             <div className={s.descriptionBlock}>
 
-                <img src={props.profile.photos.large === null ? mainPic : props.profile.photos.large}
+                <img alt="" src={props.profile.photos.large === null ? mainPic : props.profile.photos.large}
                      style={{width:300, height:300}}/><br/><br/>
 
                 <div>Name -  {props.profile.fullName}</div><br/>

@@ -1,8 +1,6 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import HeaderApiComponent from "./HeaderApiComponent";
 import {getUserDataThunkCreator} from "../../redux/auth-reducer";
-
 
 
 let mapStateToProps = (state) => {
