@@ -15,6 +15,7 @@ const MyPosts = (props) => {
     const AddNewPostReduxForm = reduxForm({form : "addNewPostReduxForm"})(AddNewPostForm)
 
     let onNewPostCreated = (values) => {
+        debugger
         props.addPost(values.newPostBody);
     }
 
