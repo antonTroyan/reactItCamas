@@ -2,7 +2,6 @@ import {authApi} from "../api/api";
 
 const SET_USER_AUTH_DATA = 'SET_USER_AUTH_DATA';
 
-
 let initialState = {
     userId : null,
     email  : null,
@@ -18,7 +17,6 @@ export const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 ...action.data,
-                isAuth: true
             };
 
         default:
@@ -26,22 +24,42 @@ export const authReducer = (state = initialState, action) => {
     }
 };
 
-export const setUserAuthDataActionCreator = (userId, email, login) => ({type: SET_USER_AUTH_DATA,
+export const setUserAuthDataActionCreator = (userId, email, login, isAuth) => ({type: SET_USER_AUTH_DATA,
     data : {
-        userId : userId,
-        email : email,
-        login : login
+        userId  : userId,
+        email   : email,
+        login   : login,
+        isAuth  : isAuth
     }
 });
 
 export const getUserDataThunkCreator = () => (dispatch) => {
-    authApi.authorizeMe().then(response => {
+
+    authApi.amIAuthorized().then(response => {
         if (response.data.resultCode === 0){
             let userId = response.data.data.id;
             let email  = response.data.data.email;
             let login  = response.data.data.login;
 
-            dispatch(setUserAuthDataActionCreator(userId, email, login));
+            dispatch(setUserAuthDataActionCreator(userId, email, login, true));
+        }
+    });
+};
+
+export const loginThunkCreator = (email, password, rememberMe) => (dispatch) => {
+
+    authApi.login(email, password, rememberMe).then(response => {
+        if (response.data.resultCode === 0){
+           dispatch(getUserDataThunkCreator());
+        }
+    });
+};
+
+export const logoutThunkCreator = () => (dispatch) => {
+
+    authApi.logout().then(response => {
+        if (response.data.resultCode === 0){
+           dispatch(setUserAuthDataActionCreator(null, null, null, false));
         }
     });
 };

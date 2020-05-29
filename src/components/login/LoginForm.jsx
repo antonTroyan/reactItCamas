@@ -10,8 +10,8 @@ const LoginForm = (props) => {
     return (
         <form onSubmit={props.handleSubmit}>
             <div>
-                <Field placeholder={"Login"}
-                    name={"login"}
+                <Field placeholder={"Email"}
+                    name={"email"}
                     component={TextAreaCustomWrapper}
                     validate={requiredField} />
             </div>
@@ -19,10 +19,13 @@ const LoginForm = (props) => {
                 <Field placeholder={"Password"}
                     name={"password"}
                     component={TextAreaCustomWrapper}
-                    validate={requiredField} />
+                    validate={requiredField}
+                    type={"password"}/>
             </div>
             <div>
-                <Field type={"checkbox"} name={"rememberMe"} component={InputCustomWrapper} /> remember me
+                <Field type={"checkbox"}
+                    name={"rememberMe"}
+                    component={InputCustomWrapper} /> remember me
             </div>
             <div>
                 <button>Login</button>
