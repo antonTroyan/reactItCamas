@@ -1,7 +1,7 @@
 import React from 'react';
 import s from './ProfileInfo.module.css';
 import Preloader from "../../common/preloader/preloader";
-import mainPic from "../../../assets/images/main-profile-picure.jpg";
+import mainPic from "../../../assets/images/no-avatar.png";
 import ProfileStatus from "./ProfileStatus"
 
 const ProfileInfo = (props) => {

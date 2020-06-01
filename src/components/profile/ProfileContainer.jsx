@@ -5,15 +5,17 @@ import {
     getUsersStatusThunkCreator,
     updateUserStatusThunkCreator
 } from "../../redux/profile-reducer";
-import {withRouter} from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { withAuthRedirect } from '../../hoc/withAuthRedirect';
 import { compose } from 'redux';
 
 
 let mapStateToProps = (state) => {
     return {
-        profile : state.profilePage.profile,
-        status  : state.profilePage.status
+        profile          : state.profilePage.profile,
+        status           : state.profilePage.status,
+        authorizedUserId : state.authReducer.userId,
+        isAuth           : state.authReducer.isAuth
     }
 };
 

@@ -1,4 +1,5 @@
 import {authApi} from "../api/api";
+import {stopSubmit} from 'redux-form';
 
 const SET_USER_AUTH_DATA = 'SET_USER_AUTH_DATA';
 
@@ -51,6 +52,12 @@ export const loginThunkCreator = (email, password, rememberMe) => (dispatch) => 
     authApi.login(email, password, rememberMe).then(response => {
         if (response.data.resultCode === 0){
            dispatch(getUserDataThunkCreator());
+        } else {
+            let message = response.data.messages.length > 0 ? response.data.messages[0] : "Server does not return error message"
+            
+            // stopSubmit special option to highlight special field with special message
+            // '_error' means form common error not special field
+            dispatch(stopSubmit("login", {_error : message}));
         }
     });
 };
