@@ -6,6 +6,7 @@ import usersReducer from "./users-reducer";
 import authReducer from "./auth-reducer";
 import thunkMiddleware from "redux-thunk";
 import {reducer as formReducer} from 'redux-form';
+import appReducer from "./app-reducer";
 
 let reducers = combineReducers({
     // state property and handling reducer
@@ -14,7 +15,8 @@ let reducers = combineReducers({
     sidebar      :  sidebarReducer,
     usersPage    :  usersReducer,
     authReducer  :  authReducer,
-    form         :  formReducer
+    form         :  formReducer,
+    appReducer   :  appReducer
 });
 
 // applyMiddleware() add new logic layer

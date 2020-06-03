@@ -36,7 +36,8 @@ export const setUserAuthDataActionCreator = (userId, email, login, isAuth) => ({
 
 export const getUserDataThunkCreator = () => (dispatch) => {
 
-    authApi.amIAuthorized().then(response => {
+    // return data to check when dispatch will be done
+    return authApi.amIAuthorized().then(response => {
         if (response.data.resultCode === 0){
             let userId = response.data.data.id;
             let email  = response.data.data.email;
