@@ -11,36 +11,36 @@ import {
 } from '../../redux/users-reducer';
 import { compose } from 'redux';
 import { withAuthRedirect } from '../../hoc/withAuthRedirect';
+import { getUsers, getPageSize, getTotalUsersCount, getCurrentPage, getIsFetching, getFollowingProgress } from '../../redux/users-selectors';
+
 
 let mapStateToProps = (state) => {
     return {
-        users: state.usersPage.users,
-        pageSize: state.usersPage.pageSize,
-        totalUsersCount: state.usersPage.totalUsersCount,
-        currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching,
+        users           : getUsers(state),
+        pageSize        : getPageSize(state),
+        totalUsersCount : getTotalUsersCount(state),
+        currentPage     : getCurrentPage(state),
+        isFetching      : getIsFetching(state),
 
-        isFollowingInProgress: state.usersPage.isFollowingInProgress
+        isFollowingInProgress: getFollowingProgress(state)
     }
 };
 
 
 export default compose(
-    
+
     connect(mapStateToProps, {
+        follow             : followActionCreator,
+        unfollow           : unfollowActionCreator,
+        setUsers           : setUsersActionCreator,
+        setCurrentPage     : setCurrentPageActionCreator,
+        setTotalUsersCount : setUsersTotalCountActionCreator,
+        setIsFetching      : setIsFetchingActionCreator,
 
-        follow: followActionCreator,
-        unfollow: unfollowActionCreator,
-        setUsers: setUsersActionCreator,
-        setCurrentPage: setCurrentPageActionCreator,
-        setTotalUsersCount: setUsersTotalCountActionCreator,
-        setIsFetching: setIsFetchingActionCreator,
-
-        setIsFollowingInProgress: setIsFollowingInProgressActionCreator,
-        getUsersThunkCreator: getUsersThunkCreator,
-        followThunkCreator: followThunkCreator,
-        unFollowThunkCreator: unFollowThunkCreator
-
+        setIsFollowingInProgress : setIsFollowingInProgressActionCreator,
+        getUsersThunkCreator     : getUsersThunkCreator,
+        followThunkCreator       : followThunkCreator,
+        unFollowThunkCreator     : unFollowThunkCreator
     }),
 
     withAuthRedirect

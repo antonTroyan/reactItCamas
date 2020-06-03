@@ -1,6 +1,5 @@
 import React from 'react';
 import Profile from "./Profile";
-import { Redirect } from 'react-router-dom';
 
 class ProfileAPIComponent extends React.Component {
 
