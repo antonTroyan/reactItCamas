@@ -11,12 +11,12 @@ import {
 } from '../../redux/users-reducer';
 import { compose } from 'redux';
 import { withAuthRedirect } from '../../hoc/withAuthRedirect';
-import { getUsers, getPageSize, getTotalUsersCount, getCurrentPage, getIsFetching, getFollowingProgress } from '../../redux/users-selectors';
+import { getUsersSelector, getPageSize, getTotalUsersCount, getCurrentPage, getIsFetching, getFollowingProgress } from '../../redux/users-selectors';
 
 
 let mapStateToProps = (state) => {
     return {
-        users           : getUsers(state),
+        users           : getUsersSelector(state),
         pageSize        : getPageSize(state),
         totalUsersCount : getTotalUsersCount(state),
         currentPage     : getCurrentPage(state),
