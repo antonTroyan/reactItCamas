@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 
 
 const ProfileStatusHooks = (props) => {
@@ -15,6 +16,14 @@ const ProfileStatusHooks = (props) => {
 
     let [status, setStatus] = useState(props.status);
 
+
+    // hook, used after render
+    // [if props.status will be differ from old -
+    // start useEffect and set new status to local]
+    useEffect(() => {
+        setStatus(props.status);
+    }, [props.status])
+
     const activateEditMode = () => {
         setEditMode(true);
     }
@@ -27,7 +36,6 @@ const ProfileStatusHooks = (props) => {
     const onStatusChange = (event) => {
         setStatus(event.currentTarget.value);
     }
-
 
     return (
         <div>Status -
