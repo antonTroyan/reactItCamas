@@ -1,6 +1,6 @@
 import { getUserDataThunkCreator } from "./auth-reducer";
 
-const SET_INITIALIZED_TRUE = 'SET_INITIALIZED_TRUE';
+const SET_INITIALIZED_TRUE = 'social/app/SET_INITIALIZED_TRUE';
 
 let initialState = {
     isAppInitialized : false,

@@ -5,7 +5,8 @@ import Preloader from "../common/preloader/preloader";
 class UsersAPIComponent extends React.Component {
 
     componentDidMount() {
-        this.props.getUsersThunkCreator(this.props.currentPage, this.props.pageSize);
+        let {currentPage, pageSize} = this.props;
+        this.props.getUsersThunkCreator(currentPage, pageSize);
     }
 
     render() {

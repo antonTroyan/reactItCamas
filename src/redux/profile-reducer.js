@@ -1,4 +1,4 @@
-import {profileApi} from "../api/api";
+import { profileApi } from "../api/api";
 
 
 const ADD_POST = 'ADD-POST';
@@ -8,8 +8,8 @@ const DELETE_POST = 'DELETE_POST';
 
 let initialState = {
     posts: [
-        {id: 1, message: 'hello to all!!', likesCount: 15},
-        {id: 2, message: 'my name is anton', likesCount: 100}
+        { id: 1, message: 'hello to all!!', likesCount: 15 },
+        { id: 2, message: 'my name is anton', likesCount: 100 }
     ],
     newPostText: '',
     profile: null,
@@ -26,7 +26,7 @@ export const profileReducer = (state = initialState, action) => {
                 message: action.newPostBody,
                 likesCount: 5
             };
-            let stateCopy = {...state};
+            let stateCopy = { ...state };
             stateCopy.posts = [...state.posts];
             stateCopy.posts.push(newPost);
             stateCopy.newPostText = '';
@@ -34,15 +34,15 @@ export const profileReducer = (state = initialState, action) => {
         }
 
         case SET_USER_PROFILE: {
-            return {...state, profile: action.profile}
+            return { ...state, profile: action.profile }
         }
 
         case UPDATE_STATUS: {
-            return {...state, status: action.profileStatus}
+            return { ...state, status: action.profileStatus }
         }
 
         case DELETE_POST: {
-            return {...state, posts: state.posts.filter(p => p.id != action.postId)}
+            return { ...state, posts: state.posts.filter(p => p.id !== action.postId) }
         }
 
         default:
@@ -58,31 +58,31 @@ export const addPostActionCreator = (newPostBody) => {
 };
 
 
-export const setUserProfileActionCreator = (profile) => ({type: SET_USER_PROFILE, profile});
+export const setUserProfileActionCreator = (profile) => ({ type: SET_USER_PROFILE, profile });
 
-export const getUserProfileThunkCreator = (userId) => (dispatch) => {
-    profileApi.downloadUserProfile(userId).then(response => {
-        dispatch(setUserProfileActionCreator(response))
-    });
+export const getUserProfileThunkCreator = (userId) => async (dispatch) => {
+
+    let response = await profileApi.downloadUserProfile(userId);
+    dispatch(setUserProfileActionCreator(response))
 };
 
-export const updateUserStatusActionCreator = (profileStatus) => ({type: UPDATE_STATUS, profileStatus});
+export const updateUserStatusActionCreator = (profileStatus) => ({ type: UPDATE_STATUS, profileStatus });
 
-export const getUsersStatusThunkCreator = (userId) => (dispatch) => {
-    profileApi.downloadUserStatus(userId).then(response => {
-        dispatch(updateUserStatusActionCreator(response.data))
-    });
+export const getUsersStatusThunkCreator = (userId) => async (dispatch) => {
+
+    let response = await profileApi.downloadUserStatus(userId);
+    dispatch(updateUserStatusActionCreator(response.data))
 };
 
-export const updateUserStatusThunkCreator = (status) => (dispatch) => {
-    profileApi.updateUserStatus(status).then(response => {
-        if (response.data.resultCode === 0) {
-            dispatch(updateUserStatusActionCreator(status))
-        }
-    });
+export const updateUserStatusThunkCreator = (status) => async (dispatch) => {
+
+    let response = await profileApi.updateUserStatus(status);
+    if (response.data.resultCode === 0) {
+        dispatch(updateUserStatusActionCreator(status))
+    }
 };
 
-export const deletePostActionCreator = (postId) => ({type: DELETE_POST, postId})
+export const deletePostActionCreator = (postId) => ({ type: DELETE_POST, postId })
 
 
 export default profileReducer;

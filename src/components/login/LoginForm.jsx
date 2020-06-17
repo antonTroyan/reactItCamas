@@ -1,36 +1,22 @@
 import React from 'react';
-import { Field } from 'redux-form';
-import { InputCustomWrapper, TextAreaCustomWrapper } from '../common/FormsControls/FormsControls';
+import { InputCustomWrapper, TextAreaCustomWrapper, createField } from '../common/FormsControls/FormsControls';
 import { requiredField } from '../../utils/validators/validators';
 import style from "./../common/FormsControls/FormControls.module.css"
 
 // redux-form prevent default page reloading using HOC wrapper method
 // onSubmit={props.handleSubmit}
 
-const LoginForm = (props) => {
+const LoginForm = ({handleSubmit, error}) => {
     return (
-        <form onSubmit={props.handleSubmit}>
-            <div>
-                <Field placeholder={"Email"}
-                    name={"email"}
-                    component={TextAreaCustomWrapper}
-                    validate={requiredField} />
-            </div>
-            <div>
-                <Field placeholder={"Password"}
-                    name={"password"}
-                    component={TextAreaCustomWrapper}
-                    validate={requiredField}
-                    type={"password"}/>
-            </div>
-            <div>
-                <Field type={"checkbox"}
-                    name={"rememberMe"}
-                    component={InputCustomWrapper} /> remember me
-            </div>
+        <form onSubmit={handleSubmit}>
 
-            {props.error && <div className={style.formSummaryError}>
-                {props.error}
+            {createField("Email", "email", TextAreaCustomWrapper, [requiredField])}
+            {createField("Password", "password", TextAreaCustomWrapper, [requiredField], "password")}
+            {createField("checkbox", "rememberMe", InputCustomWrapper, [], "checkbox", "Remember me")}
+    
+            {error && 
+            <div className={style.formSummaryError}>
+                {error}
             </div>}
 
             <div>

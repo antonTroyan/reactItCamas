@@ -9,13 +9,14 @@ import { Redirect } from 'react-router-dom';
 // requesting HOC from redux-form library to wrap login form
 const LoginReduxForm = reduxForm({ form: 'login' })(LoginForm);
 
-const Login = (props) => {
+// {loginThunkCreator, isAuth} destructualization instead of passing props
+const Login = ({loginThunkCreator, isAuth}) => {
 
     const onSubmit = (formData) => {
-        props.loginThunkCreator(formData.email, formData.password, formData.rememberMe)
+        loginThunkCreator(formData.email, formData.password, formData.rememberMe)
     }
 
-    if (props.isAuth) {
+    if (isAuth) {
         return <Redirect to={"/profile"} />
     }
 
