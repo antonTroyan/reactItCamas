@@ -4,6 +4,7 @@ import {profileApi} from "../api/api";
 const ADD_POST = 'ADD-POST';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const UPDATE_STATUS = 'UPDATE_STATUS';
+const DELETE_POST = 'DELETE_POST';
 
 let initialState = {
     posts: [
@@ -38,6 +39,10 @@ export const profileReducer = (state = initialState, action) => {
 
         case UPDATE_STATUS: {
             return {...state, status: action.profileStatus}
+        }
+
+        case DELETE_POST: {
+            return {...state, posts: state.posts.filter(p => p.id != action.postId)}
         }
 
         default:
@@ -76,6 +81,8 @@ export const updateUserStatusThunkCreator = (status) => (dispatch) => {
         }
     });
 };
+
+export const deletePostActionCreator = (postId) => ({type: DELETE_POST, postId})
 
 
 export default profileReducer;
