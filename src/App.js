@@ -1,16 +1,20 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import './App.css';
 import Navbar from './components/navbar/Navbar';
-import DialogsContainer from './components/dialogs/DialogsContainer';
-import { BrowserRouter, Route} from 'react-router-dom';
+import {BrowserRouter, Route} from 'react-router-dom';
 import UsersContainer from './components/users/UsersContainer';
 import ProfileContainer from "./components/profile/ProfileContainer";
 import HeaderContainer from "./components/header/HeaderContainer";
 import Login from './components/login/Login';
-import { connect, Provider } from 'react-redux';
-import { initializeAppThunkCreator } from './redux/app-reducer';
+import {connect, Provider} from 'react-redux';
+import {initializeAppThunkCreator} from './redux/app-reducer';
 import Preloader from './components/common/preloader/preloader';
 import store from './redux/redux-store'
+
+// https://ru.reactjs.org/docs/code-splitting.html
+// DialogsContainer component will be downloaded not on the first random page downloading
+// but on the specific page associated with this container
+const DialogsContainer = React.lazy(() => import('./components/dialogs/DialogsContainer'))
 
 class App extends Component {
 
@@ -20,28 +24,32 @@ class App extends Component {
 
     render() {
         if (!this.props.isAppInitialized) {
-            return <Preloader />
+            return <Preloader/>
         }
 
         return (
             <div className='app-wrapper'>
-                <HeaderContainer />
-                <Navbar />
-                <div className='app-wrapper-content'>
-                    <Route path='/dialogs'
-                        render={() => <DialogsContainer />} />
+                <HeaderContainer/>
+                <Navbar/>
 
-                    {/* path='/profile/:userId' - recognise part of url as param*/}
-                    {/*:userId? - ?  means optional param*/}
-                    <Route path='/profile/:userId?'
-                        render={() => <ProfileContainer />} />
+                {/* Handle loading. Work with React.lazy() */}
+                <React.Suspense fallback={<Preloader/>}>
+                    <div className='app-wrapper-content'>
+                        <Route path='/dialogs'
+                               render={() => <DialogsContainer/>}/>
 
-                    <Route path='/users'
-                        render={() => <UsersContainer />} />
+                        {/* path='/profile/:userId' - recognise part of url as param*/}
+                        {/*:userId? - ?  means optional param*/}
+                        <Route path='/profile/:userId?'
+                               render={() => <ProfileContainer/>}/>
 
-                    <Route path='/login'
-                        render={() => <Login />} />
-                </div>
+                        <Route path='/users'
+                               render={() => <UsersContainer/>}/>
+
+                        <Route path='/login'
+                               render={() => <Login/>}/>
+                    </div>
+                </React.Suspense>
             </div>
         );
     }
@@ -58,7 +66,7 @@ let AppContainer = connect(mapStateToProps, {
 const SamuraiJsApp = (props) => {
     return <BrowserRouter>
         <Provider store={store}>
-            <AppContainer />
+            <AppContainer/>
         </Provider>
     </BrowserRouter>
 }
