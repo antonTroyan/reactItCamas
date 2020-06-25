@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useEffect } from 'react';
+import React, {useState} from 'react';
+import {useEffect} from 'react';
 
 
 const ProfileStatusHooks = (props) => {
@@ -39,20 +39,20 @@ const ProfileStatusHooks = (props) => {
 
     return (
         <div>Status -
-            { !editMode &&
-                <div>
-                    <span onDoubleClick={activateEditMode}>{props.status || 'No Status!'}</span>
-                </div>
+            {!editMode &&
+            <div>
+                <span onDoubleClick={activateEditMode}>{props.status || 'No Status!'}</span>
+            </div>
             }
 
             {editMode &&
-                <div>
-                    <input onBlur={deactivateEditMode}
-                        autoFocus={true}
-                        onChange={onStatusChange}
-                        value={status}>
-                    </input>
-                </div>
+            <div>
+                <input onBlur={deactivateEditMode}
+                       autoFocus={true}
+                       onChange={onStatusChange}
+                       value={status}>
+                </input>
+            </div>
             }
         </div>
     )

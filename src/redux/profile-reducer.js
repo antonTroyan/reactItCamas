@@ -47,11 +47,7 @@ export const profileReducer = (state = initialState, action) => {
         }
 
         case SAVE_PHOTO: {
-            return {...state, profile : {...state.profile, photos : action.photos}}
-        }
-
-        case SAVE_PHOTO: {
-            return {...state, profile : {...state.profile, photos : action.photos}}
+            return {...state, profile: {...state.profile, photos: action.photos}}
         }
 
         default:

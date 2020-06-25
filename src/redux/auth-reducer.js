@@ -1,5 +1,5 @@
-import { authApi } from "../api/api";
-import { stopSubmit } from 'redux-form';
+import {authApi} from "../api/api";
+import {stopSubmit} from 'redux-form';
 
 const SET_USER_AUTH_DATA = 'social/auth/SET_USER_AUTH_DATA';
 
@@ -59,14 +59,14 @@ export const loginThunkCreator = (email, password, rememberMe) => async (dispatc
 
         // stopSubmit special option to highlight special field with special message
         // '_error' means form common error not special field
-        dispatch(stopSubmit("login", { _error: message }));
+        dispatch(stopSubmit("login", {_error: message}));
     }
 };
 
 export const logoutThunkCreator = () => async (dispatch) => {
 
     let response = await authApi.logout();
-    
+
     if (response.data.resultCode === 0) {
         dispatch(setUserAuthDataActionCreator(null, null, null, false));
     }

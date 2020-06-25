@@ -15,10 +15,16 @@ class UsersAPIComponent extends React.Component {
             <Users totalUsersCount={this.props.totalUsersCount}
                    pageSize={this.props.pageSize}
                    currentPage={this.props.currentPage}
-                   onPageChanged={(pageNumber) => {this.props.getUsersThunkCreator(pageNumber, this.props.pageSize);}}
+                   onPageChanged={(pageNumber) => {
+                       this.props.getUsersThunkCreator(pageNumber, this.props.pageSize);
+                   }}
                    users={this.props.users}
-                   startFollow={(userId) => {this.props.followThunkCreator(userId);}}
-                   stopFollow={(userId) => {this.props.unFollowThunkCreator(userId);}}
+                   startFollow={(userId) => {
+                       this.props.followThunkCreator(userId);
+                   }}
+                   stopFollow={(userId) => {
+                       this.props.unFollowThunkCreator(userId);
+                   }}
                    isFollowingInProgress={this.props.isFollowingInProgress}/>
         </>
     }

@@ -1,9 +1,9 @@
-import { getUserDataThunkCreator } from "./auth-reducer";
+import {getUserDataThunkCreator} from "./auth-reducer";
 
 const SET_INITIALIZED_TRUE = 'social/app/SET_INITIALIZED_TRUE';
 
 let initialState = {
-    isAppInitialized : false,
+    isAppInitialized: false,
 };
 
 export const appReducer = (state = initialState, action) => {
@@ -13,7 +13,7 @@ export const appReducer = (state = initialState, action) => {
         case SET_INITIALIZED_TRUE:
             return {
                 ...state,
-                isAppInitialized : true
+                isAppInitialized: true
             };
 
         default:
@@ -24,15 +24,14 @@ export const appReducer = (state = initialState, action) => {
 export const setInitializedTrueActionCreator = () => ({type: SET_INITIALIZED_TRUE});
 
 export const initializeAppThunkCreator = () => (dispatch) => {
-    
+
     let promise = dispatch(getUserDataThunkCreator());
 
     // set initialized to true only when isIAuthorized will be completed
-    promise.then(()=>{
+    promise.then(() => {
         dispatch(setInitializedTrueActionCreator());
     })
 };
-
 
 
 export default appReducer;

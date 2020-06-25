@@ -4,7 +4,7 @@ export const requiredField = (value) => {
     }
 
     return "Field is required";
-} 
+}
 
 export const maxLengthCreator = (maxLength) => (value) => {
 

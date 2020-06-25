@@ -2,16 +2,16 @@ const SEND_MESSAGE = 'SEND_MESSAGE';
 
 let initialState = {
     dialogs: [
-        { id: 1, name: 'Dimich' },
-        { id: 2, name: 'Andrey' },
-        { id: 3, name: 'Ivan' },
-        { id: 4, name: 'China' }
+        {id: 1, name: 'Dimich'},
+        {id: 2, name: 'Andrey'},
+        {id: 3, name: 'Ivan'},
+        {id: 4, name: 'China'}
     ],
 
     messages: [
-        { id: 1, message: "hi" },
-        { id: 1, message: "How are you" },
-        { id: 1, message: "Yo" }
+        {id: 1, message: "hi"},
+        {id: 1, message: "How are you"},
+        {id: 1, message: "Yo"}
     ]
 };
 
@@ -24,10 +24,10 @@ export const dialogsReducer = (state = initialState, action) => {
 
             return {
                 ...state,
-                messages : [...state.messages, {id : 6, message : messageContent}]
+                messages: [...state.messages, {id: 6, message: messageContent}]
             }
         }
-            
+
         default:
             return state;
     }

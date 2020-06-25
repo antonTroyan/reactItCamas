@@ -1,7 +1,7 @@
 import React from 'react';
-import { Field } from 'redux-form';
-import { TextAreaCustomWrapper } from '../common/FormsControls/FormsControls';
-import { requiredField, maxLengthCreator } from '../../utils/validators/validators';
+import {Field} from 'redux-form';
+import {TextAreaCustomWrapper} from '../common/FormsControls/FormsControls';
+import {requiredField, maxLengthCreator} from '../../utils/validators/validators';
 
 const maxLengthCreator20 = maxLengthCreator(20);
 
@@ -12,9 +12,9 @@ const AddMessageForm = (props) => {
             <div>
                 <div>
                     <Field component={TextAreaCustomWrapper}
-                        validate={[requiredField, maxLengthCreator20]}
-                        name="newMessageBody"
-                        placeholder="Enter your message" />
+                           validate={[requiredField, maxLengthCreator20]}
+                           name="newMessageBody"
+                           placeholder="Enter your message"/>
                 </div>
                 <div>
                     <button>Send</button>

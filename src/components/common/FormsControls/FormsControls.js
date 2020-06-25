@@ -1,10 +1,10 @@
 import React from 'react';
 import styles from "./FormControls.module.css"
-import { Field } from 'redux-form';
+import {Field} from 'redux-form';
 
 // send all info in props but without input and meta
 // rest operator, destructualization [topic]
-export const TextAreaCustomWrapper = ({ input, meta:{touched, error}, ...props }) => {
+export const TextAreaCustomWrapper = ({input, meta: {touched, error}, ...props}) => {
 
     const hasError = touched && error;
     return (
@@ -18,7 +18,7 @@ export const TextAreaCustomWrapper = ({ input, meta:{touched, error}, ...props }
     )
 }
 
-export const InputCustomWrapper = ({ input, meta, ...props }) => {
+export const InputCustomWrapper = ({input, meta, ...props}) => {
 
     const hasError = meta.touched && meta.error;
     return (
@@ -31,13 +31,13 @@ export const InputCustomWrapper = ({ input, meta, ...props }) => {
     )
 }
 
-export const createField = (placeholder, name, component, validators, type, text="") => (
+export const createField = (placeholder, name, component, validators, type, text = "") => (
     <div>
         <Field placeholder={placeholder}
-            name={name}
-            component={component}
-            validate={validators} 
-            type={type}/>
-            {text}
+               name={name}
+               component={component}
+               validate={validators}
+               type={type}/>
+        {text}
     </div>
 )

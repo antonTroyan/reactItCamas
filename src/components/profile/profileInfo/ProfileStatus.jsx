@@ -11,7 +11,7 @@ class ProfileStatus extends React.Component {
 
     onStatusChange = (event) => {
         this.setState({
-            status : event.currentTarget.value
+            status: event.currentTarget.value
         })
     };
 
@@ -38,10 +38,10 @@ class ProfileStatus extends React.Component {
     // created to add sync
     // 1 We render profile with old status from global state, because in some cases page render before request returns
     // 2 In this way when new status come, it call method, and it set new value in local state
-    componentDidUpdate (prevProps, prevState) {
-        if (prevProps.status !== this.props.status){
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.status !== this.props.status) {
             this.setState({
-                status : this.props.status
+                status: this.props.status
             })
         }
     }

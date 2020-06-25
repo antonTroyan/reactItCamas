@@ -1,5 +1,5 @@
 import React from 'react';
-import { create } from 'react-test-renderer';
+import {create} from 'react-test-renderer';
 import ProfileStatus from './ProfileStatus';
 
 const TEST_STATUS = "Test Status";
@@ -10,13 +10,13 @@ const TEST_STATUS = "Test Status";
 describe("ProfileStatus component", () => {
 
     test("Status from props should be in the state", () => {
-        const component = create(<ProfileStatus status={TEST_STATUS} />);
+        const component = create(<ProfileStatus status={TEST_STATUS}/>);
         const instance = component.getInstance();
         expect(instance.state.status).toBe(TEST_STATUS);
     })
 
     test("After creation tag span should be displayed", () => {
-        const component = create(<ProfileStatus status={TEST_STATUS} />);
+        const component = create(<ProfileStatus status={TEST_STATUS}/>);
         const root = component.root;
         let span = root.findByType("span");
         expect(span).not.toBeNull();
@@ -41,11 +41,11 @@ describe("ProfileStatus component", () => {
     test("Callback should be called", () => {
         // spy function that can count how many times it called
         const mockCallback = jest.fn();
-        
+
         const component = create(<ProfileStatus status={TEST_STATUS} updateStatus={mockCallback}/>);
         const instance = component.getInstance();
         instance.deactivateEditMode();
-        
+
         expect(mockCallback.mock.calls.length).toBe(1)
     })
 })

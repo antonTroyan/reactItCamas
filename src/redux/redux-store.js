@@ -10,18 +10,18 @@ import appReducer from "./app-reducer";
 
 let reducers = combineReducers({
     // state property and handling reducer
-    profilePage  :  profileReducer,
-    messagesPage :  dialogsReducer,
-    sidebar      :  sidebarReducer,
-    usersPage    :  usersReducer,
-    authReducer  :  authReducer,
-    form         :  formReducer,
-    appReducer   :  appReducer
+    profilePage: profileReducer,
+    messagesPage: dialogsReducer,
+    sidebar: sidebarReducer,
+    usersPage: usersReducer,
+    authReducer: authReducer,
+    form: formReducer,
+    appReducer: appReducer
 });
 
 // applyMiddleware() add new logic layer
 // const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; --- [integration with chrome extension]
- const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
- const store = createStore(reducers, composeEnhancers(applyMiddleware(thunkMiddleware)));
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(reducers, composeEnhancers(applyMiddleware(thunkMiddleware)));
 
 export default store;

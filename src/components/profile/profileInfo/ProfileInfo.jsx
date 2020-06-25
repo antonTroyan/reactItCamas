@@ -5,12 +5,12 @@ import mainPic from "../../../assets/images/no-avatar.png";
 import ProfileStatusHooks from './ProfileStatusHooks';
 
 const ProfileInfo = ({profile, ...props}) => {
-    if (!profile){
+    if (!profile) {
         return <Preloader/>
     }
 
     const onMainPhotoSelected = (e) => {
-        if(e.target.files.length > 0){
+        if (e.target.files.length > 0) {
             props.savePhoto(e.target.files[0]);
         }
     }
@@ -20,24 +20,26 @@ const ProfileInfo = ({profile, ...props}) => {
             <div className={s.descriptionBlock}>
 
                 <img alt="" src={profile.photos.large === null ? mainPic : profile.photos.large}
-                     style={{width:300, height:300}}/><br/><br/>
+                     style={{width: 300, height: 300}}/><br/><br/>
                 {props.isOwner && <input type={"file"} onChange={onMainPhotoSelected}/>}
 
-                <div>Name -  {profile.fullName}</div><br/>
+                <div>Name - {profile.fullName}</div>
+                <br/>
 
-                <div>About me -  {profile.aboutMe}</div>
-                <div>Facebook -  {profile.contacts.facebook}</div>
-                <div>WebSite  -  {profile.contacts.website}</div>
-                <div>Vk       -  {profile.contacts.vk}</div>
-                <div>Twitter  -  {profile.contacts.twitter}</div>
-                <div>Instagram-  {profile.contacts.instagram}</div>
-                <div>Youtube  -  {profile.contacts.youtube}</div>
-                <div>GitHub   -  {profile.contacts.github}</div><br/>
+                <div>About me - {profile.aboutMe}</div>
+                <div>Facebook - {profile.contacts.facebook}</div>
+                <div>WebSite - {profile.contacts.website}</div>
+                <div>Vk - {profile.contacts.vk}</div>
+                <div>Twitter - {profile.contacts.twitter}</div>
+                <div>Instagram- {profile.contacts.instagram}</div>
+                <div>Youtube - {profile.contacts.youtube}</div>
+                <div>GitHub - {profile.contacts.github}</div>
+                <br/>
 
                 <div>Looking for a job - {profile.lookingForAJob}</div>
                 <div>Looking for a job desc - {profile.lookingForAJobDescription}</div>
-            
-            
+
+
                 <ProfileStatusHooks status={props.status} updateStatus={props.updateStatus}/>
             </div>
         </div>

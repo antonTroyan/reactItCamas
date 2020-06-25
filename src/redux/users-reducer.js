@@ -1,5 +1,5 @@
-import { usersAPI } from "../api/api";
-import { updateObjectInArray } from "../utils/objects-helpers";
+import {usersAPI} from "../api/api";
+import {updateObjectInArray} from "../utils/objects-helpers";
 
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
@@ -26,18 +26,18 @@ export const usersReducer = (state = initialState, action) => {
             return {
                 ...state,
 
-                users: updateObjectInArray(state.users, action.userId, "id", {followed : true})
+                users: updateObjectInArray(state.users, action.userId, "id", {followed: true})
             };
 
         case UNFOLLOW:
             return {
                 ...state,
 
-                users: updateObjectInArray(state.users, action.userId, "id", {followed : false})
+                users: updateObjectInArray(state.users, action.userId, "id", {followed: false})
             };
 
         case SET_USERS: {
-            return { ...state, users: action.users };
+            return {...state, users: action.users};
         }
 
         case SET_CURRENT_PAGE: {
@@ -48,11 +48,11 @@ export const usersReducer = (state = initialState, action) => {
         }
 
         case SET_TOTAL_USERS_COUNT: {
-            return { ...state, totalUsersCount: action.totalCount };
+            return {...state, totalUsersCount: action.totalCount};
         }
 
         case SET_IS_FETCHING: {
-            return { ...state, isFetching: action.isFetchingValue };
+            return {...state, isFetching: action.isFetchingValue};
         }
 
         case SET_FOLLOWING_PROGRESS: {
@@ -69,12 +69,12 @@ export const usersReducer = (state = initialState, action) => {
     }
 };
 
-export const followActionCreator = (userId) => ({ type: FOLLOW, userId });
-export const unfollowActionCreator = (userId) => ({ type: UNFOLLOW, userId });
-export const setUsersActionCreator = (users) => ({ type: SET_USERS, users });
-export const setCurrentPageActionCreator = (pageNumber) => ({ type: SET_CURRENT_PAGE, pageNumber });
-export const setUsersTotalCountActionCreator = (totalCount) => ({ type: SET_TOTAL_USERS_COUNT, totalCount });
-export const setIsFetchingActionCreator = (isFetchingValue) => ({ type: SET_IS_FETCHING, isFetchingValue });
+export const followActionCreator = (userId) => ({type: FOLLOW, userId});
+export const unfollowActionCreator = (userId) => ({type: UNFOLLOW, userId});
+export const setUsersActionCreator = (users) => ({type: SET_USERS, users});
+export const setCurrentPageActionCreator = (pageNumber) => ({type: SET_CURRENT_PAGE, pageNumber});
+export const setUsersTotalCountActionCreator = (totalCount) => ({type: SET_TOTAL_USERS_COUNT, totalCount});
+export const setIsFetchingActionCreator = (isFetchingValue) => ({type: SET_IS_FETCHING, isFetchingValue});
 export const setIsFollowingInProgressActionCreator = (isFollowingInProgressValue, userId) => ({
     type: SET_FOLLOWING_PROGRESS,
     isFollowingInProgressValue, userId

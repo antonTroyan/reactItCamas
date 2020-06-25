@@ -1,11 +1,11 @@
 import React from 'react';
-import profileReducer, { addPostActionCreator, deletePostActionCreator } from './profile-reducer';
+import profileReducer, {addPostActionCreator, deletePostActionCreator} from './profile-reducer';
 
 const TEST_VALUE = "Test Post"
 let initialState = {
     posts: [
-        { id: 1, message: 'hello to all!!', likesCount: 15 },
-        { id: 2, message: 'my name is anton', likesCount: 100 }
+        {id: 1, message: 'hello to all!!', likesCount: 15},
+        {id: 2, message: 'my name is anton', likesCount: 100}
     ],
 };
 

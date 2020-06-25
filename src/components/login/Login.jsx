@@ -1,13 +1,13 @@
 import React from 'react';
 import LoginForm from './LoginForm';
-import { reduxForm } from 'redux-form';
-import { loginThunkCreator } from "../../redux/auth-reducer"
-import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import {reduxForm} from 'redux-form';
+import {loginThunkCreator} from "../../redux/auth-reducer"
+import {connect} from 'react-redux';
+import {Redirect} from 'react-router-dom';
 
 
 // requesting HOC from redux-form library to wrap login form
-const LoginReduxForm = reduxForm({ form: 'login' })(LoginForm);
+const LoginReduxForm = reduxForm({form: 'login'})(LoginForm);
 
 // {loginThunkCreator, isAuth} destructualization instead of passing props
 const Login = ({loginThunkCreator, isAuth}) => {
@@ -17,12 +17,12 @@ const Login = ({loginThunkCreator, isAuth}) => {
     }
 
     if (isAuth) {
-        return <Redirect to={"/profile"} />
+        return <Redirect to={"/profile"}/>
     }
 
     return <div>
         <h1>Login</h1>
-        <LoginReduxForm onSubmit={onSubmit} />
+        <LoginReduxForm onSubmit={onSubmit}/>
     </div>
 }
 

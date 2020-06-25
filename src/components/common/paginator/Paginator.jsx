@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import styles from "./Paginator.module.css";
 import cn from "classnames";
 
@@ -10,7 +10,7 @@ import cn from "classnames";
 // cn('menu',{'active':isActive})//'menu'
 // [library to merge style class names]
 
-let Paginator = ({ currentPage, totalItemsCount, pageSize, onPageChanged, portionSize = 10 }) => {
+let Paginator = ({currentPage, totalItemsCount, pageSize, onPageChanged, portionSize = 10}) => {
 
     let pagesCount = Math.ceil(totalItemsCount / pageSize);
     let pages = [];
@@ -25,26 +25,30 @@ let Paginator = ({ currentPage, totalItemsCount, pageSize, onPageChanged, portio
 
     return (
         <div className={styles.paginator}>
-            {portionNumber > 1 && <button onClick={() => { setPortionNumber(portionNumber - 1) }}>Prev</button>}
+            {portionNumber > 1 && <button onClick={() => {
+                setPortionNumber(portionNumber - 1)
+            }}>Prev</button>}
             {pages
                 .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
                 .map(pageNumber => {
                     return (
                         <span className={cn({
-                            [styles.selectedPage] : currentPage === pageNumber
+                            [styles.selectedPage]: currentPage === pageNumber
                         }, styles.pageNumber)}
-                            key={pageNumber}
-                            onClick={(e) => {
-                                onPageChanged(pageNumber)
-                            }}>
+                              key={pageNumber}
+                              onClick={(e) => {
+                                  onPageChanged(pageNumber)
+                              }}>
                             {pageNumber}
                         </span>
                     )
                 })}
             {portionCount > portionNumber && <button onClick={
-                () => { setPortionNumber(portionNumber + 1) }}>
+                () => {
+                    setPortionNumber(portionNumber + 1)
+                }}>
                 Next
-                    </button>}
+            </button>}
         </div>
     )
 };

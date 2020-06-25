@@ -2,17 +2,17 @@ import React from 'react';
 import s from './MyPosts.module.css';
 import Post from './post/Post';
 import AddNewPostForm from './AddNewPostForm';
-import { reduxForm } from 'redux-form';
+import {reduxForm} from 'redux-form';
 
 
 const MyPosts = (props) => {
 
     let postElements = props.posts.map((element) => {
         return <Post message={element.message}
-            likesCount={element.likesCount} />
+                     likesCount={element.likesCount}/>
     });
 
-    const AddNewPostReduxForm = reduxForm({form : "addNewPostReduxForm"})(AddNewPostForm)
+    const AddNewPostReduxForm = reduxForm({form: "addNewPostReduxForm"})(AddNewPostForm)
 
     let onNewPostCreated = (values) => {
         debugger
