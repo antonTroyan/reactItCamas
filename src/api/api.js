@@ -39,11 +39,11 @@ export const authApi = {
         return instance.get(`auth/me`);
     },
 
-    login(email, password, rememberMe = false) {
+    login(email, password, rememberMe=false ) {
         return instance.post('auth/login', {email, password, rememberMe});
     },
 
-    logout(email, password, rememberMe = false) {
+    logout(email, password, rememberMe=false ) {
         return instance.delete('auth/login');
     }
 };
@@ -55,18 +55,6 @@ export const profileApi = {
             .then(response => {
                 return response.data;
             })
-    },
-
-    savePhoto(photoFile) {
-        const formData = new FormData();
-        formData.append("image", photoFile);
-        return instance.put(`profile/photo`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        }).then(response => {
-            return response.data;
-        })
     },
 
     downloadUserStatus(userId) {
