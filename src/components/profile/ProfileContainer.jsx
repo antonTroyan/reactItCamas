@@ -3,7 +3,7 @@ import ProfileAPIComponent from "./ProfileAPIComponent";
 import {
     getUserProfileThunkCreator,
     getUsersStatusThunkCreator,
-    savePhotoThunkCreator,
+    savePhotoThunkCreator, saveProfileThunkCreator,
     updateUserStatusThunkCreator
 } from "../../redux/profile-reducer";
 import {withRouter} from "react-router-dom";
@@ -28,6 +28,7 @@ export default compose(
         getUserStatusThunkCreator: getUsersStatusThunkCreator,
         updateUserStatusThunkCreator: updateUserStatusThunkCreator,
         savePhoto: savePhotoThunkCreator,
+        saveProfile: saveProfileThunkCreator
     }),
     // wrapper that add info about url to ProfileAPIComponent
     withRouter,

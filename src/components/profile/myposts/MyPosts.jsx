@@ -8,7 +8,7 @@ import {reduxForm} from 'redux-form';
 const MyPosts = (props) => {
 
     let postElements = props.posts.map((element) => {
-        return <Post message={element.message}
+        return <Post key={element.id} message={element.message}
                      likesCount={element.likesCount}/>
     });
 

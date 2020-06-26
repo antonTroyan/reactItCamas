@@ -1,10 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
 import s from './ProfileInfo.module.css';
 import Preloader from "../../common/preloader/preloader";
 import mainPic from "../../../assets/images/no-avatar.png";
 import ProfileStatusHooks from './ProfileStatusHooks';
+import ProfileDataForm from "./ProfileDataForm";
+import ProfileMainData from "./ProfileMainData";
 
-const ProfileInfo = ({profile, ...props}) => {
+const ProfileInfo = ({profile, saveProfile, ...props}) => {
+
+    let [editMode, setEditMode] = useState(false);
+
     if (!profile) {
         return <Preloader/>
     }
@@ -15,6 +20,14 @@ const ProfileInfo = ({profile, ...props}) => {
         }
     }
 
+    const onSubmit = (formData) => {
+        // not the best approach
+        // better hold info about success form submit in state
+        saveProfile(formData).then(() => {
+            setEditMode(false)
+        })
+    }
+
     return (
         <div>
             <div className={s.descriptionBlock}>
@@ -23,27 +36,18 @@ const ProfileInfo = ({profile, ...props}) => {
                      style={{width: 300, height: 300}}/><br/><br/>
                 {props.isOwner && <input type={"file"} onChange={onMainPhotoSelected}/>}
 
-                <div>Name - {profile.fullName}</div>
-                <br/>
-
-                <div>About me - {profile.aboutMe}</div>
-                <div>Facebook - {profile.contacts.facebook}</div>
-                <div>WebSite - {profile.contacts.website}</div>
-                <div>Vk - {profile.contacts.vk}</div>
-                <div>Twitter - {profile.contacts.twitter}</div>
-                <div>Instagram- {profile.contacts.instagram}</div>
-                <div>Youtube - {profile.contacts.youtube}</div>
-                <div>GitHub - {profile.contacts.github}</div>
-                <br/>
-
-                <div>Looking for a job - {profile.lookingForAJob}</div>
-                <div>Looking for a job desc - {profile.lookingForAJobDescription}</div>
-
+                {editMode
+                    ? <ProfileDataForm initialValues={profile} profile={profile} onSubmit={onSubmit}/>
+                    : <ProfileMainData profile={profile} isOwner={props.isOwner} goToEditMode={() => {
+                        setEditMode(true)
+                    }}/>
+                }
 
                 <ProfileStatusHooks status={props.status} updateStatus={props.updateStatus}/>
             </div>
         </div>
     )
 };
+
 
 export default ProfileInfo;

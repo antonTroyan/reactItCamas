@@ -79,5 +79,9 @@ export const profileApi = {
         return instance.put('profile/status',
             {status: statusValue}
         );
+    },
+
+    saveProfile(profile) {
+        return instance.put('profile', profile)
     }
 };

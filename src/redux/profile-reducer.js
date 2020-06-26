@@ -1,4 +1,5 @@
 import {profileApi} from "../api/api";
+import {stopSubmit} from "redux-form";
 
 
 const ADD_POST = 'ADD-POST';
@@ -97,5 +98,35 @@ export const savePhotoThunkCreator = (photo) => async (dispatch) => {
         dispatch(savePhotoActionCreator(response.data.photos))
     }
 };
+
+export const saveProfileThunkCreator = (profile) => async (dispatch, getState) => {
+
+    const userId = getState().authReducer.userId;
+    const response = await profileApi.saveProfile(profile);
+
+    if (response.data.resultCode === 0) {
+        dispatch(getUserProfileThunkCreator(userId))
+    } else {
+        const message = response.data.messages.length > 0 ? response.data.messages[0] : "Server does not return error message"
+        let errorField = extractErrorField(message)
+
+        // [errorField] using brackets we allowed to use variable as key
+        dispatch(stopSubmit("edit-profile", {
+            "contacts": {
+                [errorField]: message
+            }
+        }));
+        // it will set fail to promise. [then] statement will not work
+        return Promise.reject(message)
+    }
+}
+
+const extractErrorField = (errorMessage) => {
+
+    return errorMessage
+        .replace("Invalid url format (Contacts->", "")
+        .replace(")", "")
+        .toLowerCase();
+}
 
 export default profileReducer;
