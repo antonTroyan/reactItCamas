@@ -7,6 +7,7 @@ const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const UPDATE_STATUS = 'UPDATE_STATUS';
 const DELETE_POST = 'DELETE_POST';
 const SAVE_PHOTO = 'SAVE_PHOTO';
+const IS_EDIT_MODE_ENABLED = 'IS_EDIT_MODE_ENABLED';
 
 let initialState = {
     posts: [
@@ -15,7 +16,8 @@ let initialState = {
     ],
     newPostText: '',
     profile: null,
-    status: ''
+    status: '',
+    editMode: false
 };
 
 export const profileReducer = (state = initialState, action) => {
@@ -49,6 +51,10 @@ export const profileReducer = (state = initialState, action) => {
 
         case SAVE_PHOTO: {
             return {...state, profile: {...state.profile, photos: action.photos}}
+        }
+
+        case IS_EDIT_MODE_ENABLED: {
+            return {...state, editMode: action.resultValue}
         }
 
         default:
@@ -99,6 +105,11 @@ export const savePhotoThunkCreator = (photo) => async (dispatch) => {
     }
 };
 
+export const setEditModeEnabledActionCreator = (resultValue) => ({
+    type: IS_EDIT_MODE_ENABLED,
+    resultValue
+});
+
 export const saveProfileThunkCreator = (profile) => async (dispatch, getState) => {
 
     const userId = getState().authReducer.userId;
@@ -106,6 +117,7 @@ export const saveProfileThunkCreator = (profile) => async (dispatch, getState) =
 
     if (response.data.resultCode === 0) {
         dispatch(getUserProfileThunkCreator(userId))
+        dispatch(setEditModeEnabledActionCreator(false))
     } else {
         const message = response.data.messages.length > 0 ? response.data.messages[0] : "Server does not return error message"
         let errorField = extractErrorField(message)
@@ -116,8 +128,6 @@ export const saveProfileThunkCreator = (profile) => async (dispatch, getState) =
                 [errorField]: message
             }
         }));
-        // it will set fail to promise. [then] statement will not work
-        return Promise.reject(message)
     }
 }
 

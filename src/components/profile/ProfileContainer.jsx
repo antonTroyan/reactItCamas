@@ -3,7 +3,7 @@ import ProfileAPIComponent from "./ProfileAPIComponent";
 import {
     getUserProfileThunkCreator,
     getUsersStatusThunkCreator,
-    savePhotoThunkCreator, saveProfileThunkCreator,
+    savePhotoThunkCreator, saveProfileThunkCreator, setEditModeEnabledActionCreator,
     updateUserStatusThunkCreator
 } from "../../redux/profile-reducer";
 import {withRouter} from "react-router-dom";
@@ -16,7 +16,8 @@ let mapStateToProps = (state) => {
         profile: state.profilePage.profile,
         status: state.profilePage.status,
         authorizedUserId: state.authReducer.userId,
-        isAuth: state.authReducer.isAuth
+        isAuth: state.authReducer.isAuth,
+        editMode: state.profilePage.editMode
     }
 };
 
@@ -28,7 +29,8 @@ export default compose(
         getUserStatusThunkCreator: getUsersStatusThunkCreator,
         updateUserStatusThunkCreator: updateUserStatusThunkCreator,
         savePhoto: savePhotoThunkCreator,
-        saveProfile: saveProfileThunkCreator
+        saveProfile: saveProfileThunkCreator,
+        setEditMode: setEditModeEnabledActionCreator
     }),
     // wrapper that add info about url to ProfileAPIComponent
     withRouter,

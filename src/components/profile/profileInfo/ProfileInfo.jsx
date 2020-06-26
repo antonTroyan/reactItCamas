@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import s from './ProfileInfo.module.css';
 import Preloader from "../../common/preloader/preloader";
 import mainPic from "../../../assets/images/no-avatar.png";
@@ -6,9 +6,7 @@ import ProfileStatusHooks from './ProfileStatusHooks';
 import ProfileDataForm from "./ProfileDataForm";
 import ProfileMainData from "./ProfileMainData";
 
-const ProfileInfo = ({profile, saveProfile, ...props}) => {
-
-    let [editMode, setEditMode] = useState(false);
+const ProfileInfo = ({profile, saveProfile, editMode, setEditMode, ...props}) => {
 
     if (!profile) {
         return <Preloader/>
@@ -21,11 +19,7 @@ const ProfileInfo = ({profile, saveProfile, ...props}) => {
     }
 
     const onSubmit = (formData) => {
-        // not the best approach
-        // better hold info about success form submit in state
-        saveProfile(formData).then(() => {
-            setEditMode(false)
-        })
+        saveProfile(formData)
     }
 
     return (

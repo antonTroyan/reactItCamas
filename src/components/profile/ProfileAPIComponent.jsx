@@ -32,6 +32,8 @@ class ProfileAPIComponent extends React.Component {
                         updateStatus={this.props.updateUserStatusThunkCreator}
                         savePhoto={this.props.savePhoto}
                         saveProfile={this.props.saveProfile}
+                        editMode={this.props.editMode}
+                        setEditMode={this.props.setEditMode}
         />
     }
 }
