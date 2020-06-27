@@ -10,10 +10,10 @@ import {Redirect} from 'react-router-dom';
 const LoginReduxForm = reduxForm({form: 'login'})(LoginForm);
 
 // {loginThunkCreator, isAuth} destructualization instead of passing props
-const Login = ({loginThunkCreator, isAuth}) => {
+const Login = ({loginThunkCreator, isAuth, captchaUrl}) => {
 
     const onSubmit = (formData) => {
-        loginThunkCreator(formData.email, formData.password, formData.rememberMe)
+        loginThunkCreator(formData.email, formData.password, formData.rememberMe, formData.captcha)
     }
 
     if (isAuth) {
@@ -22,12 +22,13 @@ const Login = ({loginThunkCreator, isAuth}) => {
 
     return <div>
         <h1>Login</h1>
-        <LoginReduxForm onSubmit={onSubmit}/>
+        <LoginReduxForm onSubmit={onSubmit} captchaUrl={captchaUrl}/>
     </div>
 }
 
 const mapStateToProps = (state) => ({
-    isAuth: state.authReducer.isAuth
+    isAuth: state.authReducer.isAuth,
+    captchaUrl: state.authReducer.captchaUrl
 })
 
 export default connect(mapStateToProps, {
