@@ -96,8 +96,12 @@ export const securityApi = {
 
 export const messagesApi = {
 
+    downloadMessages(userId) {
+        return instance.get(`dialogs/${userId}/messages`);
+    },
+
     downloadFriends() {
 
         return instance.get(`dialogs`);
-    },
+    }
 };

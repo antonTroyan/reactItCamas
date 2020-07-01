@@ -1,4 +1,4 @@
-import {downloadFriendsThunkCreator} from '../../redux/dialogs-reducer';
+import {downloadFriendsThunkCreator, downloadMessagesThunkCreator} from '../../redux/dialogs-reducer';
 import {connect} from 'react-redux';
 import Dialogs from './Dialogs';
 import {withAuthRedirect} from '../../hoc/withAuthRedirect';
@@ -22,7 +22,8 @@ let mapStateToProps = (state) => {
 // this function aggregate wrappers
 export default compose(
     connect(mapStateToProps, {
-        downloadFriendsThunkCreator: downloadFriendsThunkCreator
+        downloadFriendsThunkCreator: downloadFriendsThunkCreator,
+        downloadMessagesThunkCreator : downloadMessagesThunkCreator
     }),
     withAuthRedirect
 )(Dialogs);
