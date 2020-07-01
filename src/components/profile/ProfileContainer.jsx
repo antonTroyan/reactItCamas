@@ -34,6 +34,6 @@ export default compose(
     }),
     // wrapper that add info about url to ProfileAPIComponent
     withRouter,
-    //HOC
+    // special HOC handling auth processes
     withAuthRedirect
 )(ProfileAPIComponent);

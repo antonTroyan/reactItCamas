@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import './App.css';
 import Navbar from './components/navbar/Navbar';
-import {BrowserRouter, Route} from 'react-router-dom';
+import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom';
 import UsersContainer from './components/users/UsersContainer';
 import ProfileContainer from "./components/profile/ProfileContainer";
 import HeaderContainer from "./components/header/HeaderContainer";
@@ -18,8 +18,19 @@ const DialogsContainer = React.lazy(() => import('./components/dialogs/DialogsCo
 
 class App extends Component {
 
+    catchAllUnhandledErrors = (promiseRejectionEvent) => {
+        alert("Some error occurred!")
+    }
+
     componentDidMount() {
         this.props.initializeAppThunkCreator();
+        // This function will handle all errors that come from server [wrong result code]
+        // If we subscribe to events we need to remove subscription later [componentWillUnmount()]. Clear trash
+        window.addEventListener("unhandledrejection", this.catchAllUnhandledErrors)
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("unhandledrejection", this.catchAllUnhandledErrors)
     }
 
     render() {
@@ -35,19 +46,29 @@ class App extends Component {
                 {/* Handle loading. Work with React.lazy() */}
                 <React.Suspense fallback={<Preloader/>}>
                     <div className='app-wrapper-content'>
-                        <Route path='/dialogs'
-                               render={() => <DialogsContainer/>}/>
 
-                        {/* path='/profile/:userId' - recognise part of url as param*/}
-                        {/*:userId? - ?  means optional param*/}
-                        <Route path='/profile/:userId?'
-                               render={() => <ProfileContainer/>}/>
+                        {/*We will choose only first that match*/}
+                        <Switch>
+                            <Route exact path='/'
+                                   render={() => <Redirect to={"/profile"}/>}/>
 
-                        <Route path='/users'
-                               render={() => <UsersContainer/>}/>
+                            <Route path='/dialogs'
+                                   render={() => <DialogsContainer/>}/>
 
-                        <Route path='/login'
-                               render={() => <Login/>}/>
+                            {/* path='/profile/:userId' - recognise part of url as param*/}
+                            {/*:userId? - ?  means optional param*/}
+                            <Route path='/profile/:userId?'
+                                   render={() => <ProfileContainer/>}/>
+
+                            <Route path='/users'
+                                   render={() => <UsersContainer/>}/>
+
+                            <Route path='/login'
+                                   render={() => <Login/>}/>
+
+                            <Route path='*'
+                                   render={() => <div>404 NOT FOUND</div>}/>
+                        </Switch>
                     </div>
                 </React.Suspense>
             </div>
