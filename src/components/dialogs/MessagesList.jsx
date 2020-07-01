@@ -1,11 +1,11 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect} from 'react';
 import s from './Dialogs.module.css';
 import Message from './message/Message';
 import AddMessageForm from './AddMessageForm';
 import {reduxForm} from 'redux-form';
 import Preloader from "../common/preloader/preloader";
 
-const MessagesListCool = (props) => {
+const MessagesList = (props) => {
 
     let userIdFromUrl = props.match.params.id
 
@@ -35,4 +35,4 @@ const MessagesListCool = (props) => {
     )
 };
 
-export default MessagesListCool;
+export default MessagesList;

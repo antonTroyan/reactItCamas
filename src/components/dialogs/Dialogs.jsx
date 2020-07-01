@@ -3,7 +3,7 @@ import s from './Dialogs.module.css';
 import DialogItem from './dialogItem/DialogItem';
 import {Redirect, Route} from 'react-router-dom';
 import Preloader from "../common/preloader/preloader";
-import MessagesListCool from "./MessagesListCool";
+import MessagesList from "./MessagesList";
 
 
 const Dialogs = (props) => {
@@ -38,9 +38,9 @@ const Dialogs = (props) => {
             </div>
 
             <Route path='/dialogs/:id/messages'
-                   render={(props) => <MessagesListCool {...props}
-                                                        messages={messagesToProps}
-                                                        downloadMessagesThunkCreator={downloadMessagesToProps}/>}/>
+                   render={(props) => <MessagesList {...props}
+                                                    messages={messagesToProps}
+                                                    downloadMessagesThunkCreator={downloadMessagesToProps}/>}/>
         </div>
     )
 };
