@@ -11,7 +11,7 @@ const ProfileStatusHooks = (props) => {
     // let editMode = stateWithSetState[0];
     // let setEditMode = stateWithSetState[1];
 
-    // another way of assingment [destructuring assignment]
+    // another way of assigment [destructuring assignment]
     let [editMode, setEditMode] = useState(false);
 
     let [status, setStatus] = useState(props.status);

@@ -93,3 +93,11 @@ export const securityApi = {
     },
 
 };
+
+export const messagesApi = {
+
+    downloadFriends() {
+
+        return instance.get(`dialogs`);
+    },
+};

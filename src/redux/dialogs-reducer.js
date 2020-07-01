@@ -1,12 +1,11 @@
+import {messagesApi} from "../api/api";
+
 const SEND_MESSAGE = 'SEND_MESSAGE';
+const SET_FRIENDS = 'SET_FRIENDS';
 
 let initialState = {
-    dialogs: [
-        {id: 1, name: 'Dimich'},
-        {id: 2, name: 'Andrey'},
-        {id: 3, name: 'Ivan'},
-        {id: 4, name: 'China'}
-    ],
+
+    dialogs: [],
 
     messages: [
         {id: 1, message: "hi"},
@@ -28,16 +27,44 @@ export const dialogsReducer = (state = initialState, action) => {
             }
         }
 
+        case SET_FRIENDS: {
+
+            return {
+                ...state,
+
+                dialogs: action.friendsList.map(e => {
+                    return {id : e.id, name: e.userName}
+                })
+            }
+        }
+
         default:
             return state;
     }
 };
 
 export const sendMessageActionCreator = (newMessageBody) => {
+
     return {
         type: SEND_MESSAGE,
-        newMessageBody
+        newMessageBody : newMessageBody
     }
 };
+
+export const setFriendsActionCreator = (friendsList) => {
+    return {
+        type: SET_FRIENDS,
+        friendsList : friendsList
+    }
+};
+
+
+export const downloadFriendsThunkCreator = () => async (dispatch) => {
+    const response = await messagesApi.downloadFriends();
+
+    if (response.status === 200) {
+        dispatch(setFriendsActionCreator(response.data))
+    }
+}
 
 export default dialogsReducer;

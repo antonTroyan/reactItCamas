@@ -1,13 +1,22 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import s from './Dialogs.module.css';
 import DialogItem from './dialogItem/DialogItem';
 import Message from './message/Message';
 import {Redirect} from 'react-router-dom';
 import AddMessageForm from './AddMessageForm';
 import {reduxForm} from 'redux-form';
+import Preloader from "../common/preloader/preloader";
 
 
 const Dialogs = (props) => {
+
+    const mounted = useRef();
+    useEffect(() => {
+        if (!mounted.current) {
+            props.downloadFriendsThunkCreator()
+            mounted.current = true;
+        }
+    });
 
     let dialogsElements = props.messagesPage
         .dialogs
@@ -27,6 +36,10 @@ const Dialogs = (props) => {
     }
 
     const AddMessageFormRedux = reduxForm({form: "dialogAddMessageForm"})(AddMessageForm);
+
+    if (!props.messagesPage.dialogs) {
+        return <Preloader/>
+    }
 
     return (
         <div className={s.dialogs}>
