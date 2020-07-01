@@ -34,7 +34,7 @@ export const dialogsReducer = (state = initialState, action) => {
         }
 
         case SET_MESSAGES: {
-            debugger
+
             return {
                 ...state,
                 messages: action.messagesList.items.map(e => {

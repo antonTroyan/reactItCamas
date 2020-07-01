@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import s from './Dialogs.module.css';
 import Message from './message/Message';
 import AddMessageForm from './AddMessageForm';
@@ -7,13 +7,11 @@ import Preloader from "../common/preloader/preloader";
 
 const MessagesListCool = (props) => {
 
-    const mounted = useRef();
+    let userIdFromUrl = props.match.params.id
+
     useEffect(() => {
-        if (!mounted.current) {
-            props.downloadMessagesThunkCreator(props.match.params.id)
-            mounted.current = true;
-        }
-    });
+        props.downloadMessagesThunkCreator(userIdFromUrl)
+    }, [userIdFromUrl]);
 
     const AddMessageFormRedux = reduxForm({form: "dialogAddMessageForm"})(AddMessageForm);
 
