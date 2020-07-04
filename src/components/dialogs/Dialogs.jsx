@@ -30,6 +30,7 @@ const Dialogs = (props) => {
 
     const messagesToProps = props.messagesPage.messages
     const downloadMessagesToProps = props.downloadMessagesThunkCreator
+    const onSendMessageClickThunkCreator = props.onSendMessageClickThunkCreator
 
     return (
         <div className={s.dialogs}>
@@ -40,7 +41,8 @@ const Dialogs = (props) => {
             <Route path='/dialogs/:id/messages'
                    render={(props) => <MessagesList {...props}
                                                     messages={messagesToProps}
-                                                    downloadMessagesThunkCreator={downloadMessagesToProps}/>}/>
+                                                    downloadMessagesThunkCreator={downloadMessagesToProps}
+                                                    onSendMessageClickThunkCreator={onSendMessageClickThunkCreator}/>}/>
         </div>
     )
 };

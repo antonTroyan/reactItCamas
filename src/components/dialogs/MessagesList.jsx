@@ -16,11 +16,13 @@ const MessagesList = (props) => {
     const AddMessageFormRedux = reduxForm({form: "dialogAddMessageForm"})(AddMessageForm);
 
     let addNewMessage = (values) => {
-        props.onSendMessageClick(values.newMessageBody);
+        props.onSendMessageClickThunkCreator(userIdFromUrl, values.newMessageBody);
     }
 
     let messagesElements = props.messages.map((msg) => {
-        return <Message message={msg.message}/>
+
+        return <Message message={msg.message}
+                        isMyMessage={msg.userId.toString() !== userIdFromUrl}/>
     });
 
     if (!props.messages) {

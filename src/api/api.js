@@ -100,6 +100,12 @@ export const messagesApi = {
         return instance.get(`dialogs/${userId}/messages`);
     },
 
+    sendMessage(userId, messageText) {
+        return instance.post(`dialogs/${userId}/messages`, {
+            body : messageText
+        });
+    },
+
     downloadFriends() {
 
         return instance.get(`dialogs`);

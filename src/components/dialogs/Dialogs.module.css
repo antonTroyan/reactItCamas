@@ -7,9 +7,15 @@
     grid-template-columns: 2fr 10fr;
 }
 
-.dialogsItems .dialog {
-    padding: 10px;
+.messages .dialogMyMsg {
+    padding: 1px;
+    text-align: left;
 
+}
+
+.messages .dialogRecipientMsg {
+    padding: 1px;
+    text-align: right;
 }
 
 .dialogsItems .active {
@@ -18,7 +24,11 @@
 
 .messages {
     padding: 10px;
+    width: 200px;
+}
 
+.sendNewMessageForm{
+    width: 400px;
 }
 
 .messages .message {

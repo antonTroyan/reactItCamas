@@ -15,11 +15,13 @@ export const dialogsReducer = (state = initialState, action) => {
     switch (action.type) {
 
         case SEND_MESSAGE: {
-            let messageContent = action.newMessageBody;
 
             return {
                 ...state,
-                messages: [...state.messages, {id: 6, message: messageContent}]
+                messages: [...state.messages, {
+                    userId: action.messageSenderId,
+                    message: action.newMessageBody
+                }]
             }
         }
 
@@ -38,7 +40,7 @@ export const dialogsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 messages: action.messagesList.items.map(e => {
-                    return {id: e.id, message: e.body}
+                    return {id: e.id, message: e.body, userId: e.senderId}
                 })
             }
         }
@@ -48,13 +50,23 @@ export const dialogsReducer = (state = initialState, action) => {
     }
 };
 
-export const sendMessageActionCreator = (newMessageBody) => {
+export const sendMessageActionCreator = (messageSenderId, newMessageBody) => {
 
     return {
         type: SEND_MESSAGE,
-        newMessageBody : newMessageBody
+        newMessageBody : newMessageBody,
+        messageSenderId : messageSenderId
     }
 };
+
+export const onSendMessageClickThunkCreator = (recipientId, messageText) => async (dispatch, getState) => {
+    const response = await messagesApi.sendMessage(recipientId, messageText);
+    const messageSenderId = getState().authReducer.userId;
+
+    if (response.status === 200) {
+        dispatch(sendMessageActionCreator(messageSenderId, messageText));
+    }
+}
 
 export const setFriendsActionCreator = (friendsList) => {
     return {

@@ -3,7 +3,15 @@ import s from './../Dialogs.module.css';
 
 const Message = (props) => {
 
-    return <div className={s.dialog}>{props.message}</div>
+    debugger
+    return (
+        <div>
+            {props.isMyMessage
+                ? <div className={s.dialogMyMsg}>{props.message}</div>
+                : <div className={s.dialogRecipientMsg}>{props.message}</div>
+            }
+        </div>
+    )
 };
 
 export default Message;

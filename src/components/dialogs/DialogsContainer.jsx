@@ -1,4 +1,8 @@
-import {downloadFriendsThunkCreator, downloadMessagesThunkCreator} from '../../redux/dialogs-reducer';
+import {
+    downloadFriendsThunkCreator,
+    downloadMessagesThunkCreator,
+    onSendMessageClickThunkCreator
+} from '../../redux/dialogs-reducer';
 import {connect} from 'react-redux';
 import Dialogs from './Dialogs';
 import {withAuthRedirect} from '../../hoc/withAuthRedirect';
@@ -10,20 +14,12 @@ let mapStateToProps = (state) => {
     }
 };
 
-
-// let mapDispatchToProps = (dispatch) => {
-//     return {
-//         onSendMessageClick: (newMessageBody) => {
-//             dispatch(sendMessageActionCreator(newMessageBody));
-//         },
-//     }
-// };
-
 // this function aggregate wrappers
 export default compose(
     connect(mapStateToProps, {
         downloadFriendsThunkCreator: downloadFriendsThunkCreator,
-        downloadMessagesThunkCreator : downloadMessagesThunkCreator
+        downloadMessagesThunkCreator: downloadMessagesThunkCreator,
+        onSendMessageClickThunkCreator: onSendMessageClickThunkCreator
     }),
     withAuthRedirect
 )(Dialogs);
