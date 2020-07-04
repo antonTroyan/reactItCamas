@@ -5,7 +5,7 @@ import {createField, InputCustomWrapper, TextAreaCustomWrapper} from "../../comm
 import {reduxForm} from "redux-form";
 import style from "../../common/FormsControls/FormControls.module.css";
 
-const ProfileDataForm = ({handleSubmit, profile, error}) => {
+const ProfileInfoAboutMeForm = ({handleSubmit, profile, error}) => {
     return (
         <form onSubmit={handleSubmit}>
             <button>Save</button>
@@ -42,6 +42,6 @@ const ProfileDataForm = ({handleSubmit, profile, error}) => {
     )
 }
 
-const ProfileDataFormReduxForm = reduxForm({form : 'edit-profile'})(ProfileDataForm)
+const ProfileDataFormReduxForm = reduxForm({form : 'edit-profile'})(ProfileInfoAboutMeForm)
 
 export default ProfileDataFormReduxForm

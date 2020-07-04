@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {useEffect} from 'react';
 
 
-const ProfileStatusHooks = (props) => {
+const ProfileInfoStatus = (props) => {
 
     // Hook returns array with :
     // 1 - value, 
@@ -59,4 +59,4 @@ const ProfileStatusHooks = (props) => {
 }
 
 
-export default ProfileStatusHooks;
+export default ProfileInfoStatus;

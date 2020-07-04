@@ -2,9 +2,9 @@ import React from 'react';
 import s from './ProfileInfo.module.css';
 import Preloader from "../../common/preloader/preloader";
 import mainPic from "../../../assets/images/no-avatar.png";
-import ProfileStatusHooks from './ProfileStatusHooks';
-import ProfileDataForm from "./ProfileDataForm";
-import ProfileMainData from "./ProfileMainData";
+import ProfileInfoStatus from './ProfileInfoStatus';
+import ProfileDataForm from "./ProfileInfoAboutMeForm";
+import ProfileMainData from "./ProfileInfoAmoutMeData";
 
 const ProfileInfo = ({profile, saveProfile, editMode, setEditMode, ...props}) => {
 
@@ -37,7 +37,7 @@ const ProfileInfo = ({profile, saveProfile, editMode, setEditMode, ...props}) =>
                     }}/>
                 }
 
-                <ProfileStatusHooks status={props.status} updateStatus={props.updateStatus}/>
+                <ProfileInfoStatus status={props.status} updateStatus={props.updateStatus}/>
             </div>
         </div>
     )
