@@ -43,7 +43,7 @@ export const authApi = {
         return instance.post('auth/login', {email, password, rememberMe, captcha});
     },
 
-    logout(email, password, rememberMe = false) {
+    logout() {
         return instance.delete('auth/login');
     }
 };
@@ -73,8 +73,8 @@ export const profileApi = {
         return instance.get(`profile/status/${userId}`);
     },
 
-    // server knows which status to update using session
-    // according API we need to send json object with key - status
+    // Server knows which status to update using session.
+    // According API we need to send json object with key - status.
     updateUserStatus(statusValue) {
         return instance.put('profile/status',
             {status: statusValue}
@@ -91,7 +91,6 @@ export const securityApi = {
     getCaptchaUrl() {
         return instance.get(`security/get-captcha-url`);
     },
-
 };
 
 export const messagesApi = {
@@ -107,7 +106,6 @@ export const messagesApi = {
     },
 
     downloadFriends() {
-
         return instance.get(`dialogs`);
     }
 };

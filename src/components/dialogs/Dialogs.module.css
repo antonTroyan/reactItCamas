@@ -10,7 +10,7 @@
 .messages .dialogMyMsg {
     padding: 1px;
     text-align: left;
-
+    color: forestgreen;
 }
 
 .messages .dialogRecipientMsg {
