@@ -2,11 +2,23 @@ import {getUserDataThunkCreator} from "./auth-reducer";
 
 const SET_INITIALIZED_TRUE = 'social/app/SET_INITIALIZED_TRUE';
 
-let initialState = {
+// Types ////////////////////////////
+type InitialStateType = {
+    isAppInitialized: boolean
+}
+type InitializedTrueActionType = {
+    type: typeof SET_INITIALIZED_TRUE
+}
+// Types ///////////////////////////
+
+
+let initialState: InitialStateType = {
     isAppInitialized: false,
 };
 
-export const appReducer = (state = initialState, action) => {
+
+// [:InitialStateType] means type of return value
+export const appReducer = (state = initialState, action: any): InitialStateType => {
 
     switch (action.type) {
 
@@ -21,9 +33,9 @@ export const appReducer = (state = initialState, action) => {
     }
 };
 
-export const setInitializedTrueActionCreator = () => ({type: SET_INITIALIZED_TRUE});
+export const setInitializedTrueActionCreator = (): InitializedTrueActionType => ({type: SET_INITIALIZED_TRUE});
 
-export const initializeAppThunkCreator = () => (dispatch) => {
+export const initializeAppThunkCreator = () => (dispatch: any) => {
 
     let promise = dispatch(getUserDataThunkCreator());
 

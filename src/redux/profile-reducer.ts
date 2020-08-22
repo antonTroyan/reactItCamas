@@ -1,5 +1,6 @@
 import {profileApi} from "../api/api";
 import {stopSubmit} from "redux-form";
+import {PhotosType, PostType, ProfileType} from "../types/types";
 
 
 const ADD_POST = 'ADD-POST';
@@ -9,18 +10,21 @@ const DELETE_POST = 'DELETE_POST';
 const SAVE_PHOTO = 'SAVE_PHOTO';
 const IS_EDIT_MODE_ENABLED = 'IS_EDIT_MODE_ENABLED';
 
+
 let initialState = {
     posts: [
         {id: 1, message: 'hello to all!!', likesCount: 15},
         {id: 2, message: 'my name is anton', likesCount: 100}
-    ],
+    ] as Array<PostType>,
     newPostText: '',
-    profile: null,
+    profile: null as ProfileType | null,
     status: '',
     editMode: false
 };
 
-export const profileReducer = (state = initialState, action) => {
+export type InitialStateType = typeof initialState;
+
+export const profileReducer = (state = initialState, action: any): InitialStateType => {
 
     switch (action.type) {
 
@@ -50,7 +54,7 @@ export const profileReducer = (state = initialState, action) => {
         }
 
         case SAVE_PHOTO: {
-            return {...state, profile: {...state.profile, photos: action.photos}}
+            return {...state, profile: {...state.profile, photos: action.photos} as ProfileType}
         }
 
         case IS_EDIT_MODE_ENABLED: {
@@ -62,31 +66,45 @@ export const profileReducer = (state = initialState, action) => {
     }
 };
 
-export const addPostActionCreator = (newPostBody) => {
+type AddPostActionCreatorType = {
+    type : typeof ADD_POST
+    newPostBody : string
+}
+
+export const addPostActionCreator = (newPostBody: string):AddPostActionCreatorType => {
     return {
         type: ADD_POST,
         newPostBody
     }
 };
 
+type SetUserProfileActionCreatorType = {
+    type: typeof SET_USER_PROFILE
+    profile: ProfileType
+}
 
-export const setUserProfileActionCreator = (profile) => ({type: SET_USER_PROFILE, profile});
+export const setUserProfileActionCreator = (profile: ProfileType): SetUserProfileActionCreatorType => ({type: SET_USER_PROFILE, profile});
 
-export const getUserProfileThunkCreator = (userId) => async (dispatch) => {
+export const getUserProfileThunkCreator = (userId: number) => async (dispatch:any) => {
 
     let response = await profileApi.downloadUserProfile(userId);
     dispatch(setUserProfileActionCreator(response))
 };
 
-export const updateUserStatusActionCreator = (profileStatus) => ({type: UPDATE_STATUS, profileStatus});
+type UpdateUserStatusActionCreatorType = {
+    type: typeof UPDATE_STATUS
+    profileStatus : string
+}
 
-export const getUsersStatusThunkCreator = (userId) => async (dispatch) => {
+export const updateUserStatusActionCreator = (profileStatus: string): UpdateUserStatusActionCreatorType => ({type: UPDATE_STATUS, profileStatus});
+
+export const getUsersStatusThunkCreator = (userId: number) => async (dispatch: any) => {
 
     let response = await profileApi.downloadUserStatus(userId);
     dispatch(updateUserStatusActionCreator(response.data))
 };
 
-export const updateUserStatusThunkCreator = (status) => async (dispatch) => {
+export const updateUserStatusThunkCreator = (status: string) => async (dispatch: any) => {
     // handle error codes
     try {
         let response = await profileApi.updateUserStatus(status);
@@ -98,10 +116,19 @@ export const updateUserStatusThunkCreator = (status) => async (dispatch) => {
     }
 };
 
-export const deletePostActionCreator = (postId) => ({type: DELETE_POST, postId})
-export const savePhotoActionCreator = (photos) => ({type: SAVE_PHOTO, photos})
+type DeletePostActionCreatorType = {
+    type: typeof DELETE_POST
+    postId : number
+}
+export const deletePostActionCreator = (postId: number): DeletePostActionCreatorType => ({type: DELETE_POST, postId})
 
-export const savePhotoThunkCreator = (photo) => async (dispatch) => {
+type SavePhotoActionCreatorType = {
+    type: typeof SAVE_PHOTO
+    photos: PhotosType
+}
+export const savePhotoActionCreator = (photos: PhotosType): SavePhotoActionCreatorType => ({type: SAVE_PHOTO, photos})
+
+export const savePhotoThunkCreator = (photo: PhotosType) => async (dispatch:any) => {
     let response = await profileApi.savePhoto(photo);
 
     if (response.resultCode === 0) {
@@ -109,12 +136,12 @@ export const savePhotoThunkCreator = (photo) => async (dispatch) => {
     }
 };
 
-export const setEditModeEnabledActionCreator = (resultValue) => ({
+export const setEditModeEnabledActionCreator = (resultValue: boolean) => ({
     type: IS_EDIT_MODE_ENABLED,
     resultValue
 });
 
-export const saveProfileThunkCreator = (profile) => async (dispatch, getState) => {
+export const saveProfileThunkCreator = (profile: ProfileType) => async (dispatch: any, getState: any) => {
 
     const userId = getState().authReducer.userId;
     const response = await profileApi.saveProfile(profile);
@@ -135,7 +162,7 @@ export const saveProfileThunkCreator = (profile) => async (dispatch, getState) =
     }
 }
 
-const extractErrorField = (errorMessage) => {
+const extractErrorField = (errorMessage: string) => {
 
     return errorMessage
         .replace("Invalid url format (Contacts->", "")
