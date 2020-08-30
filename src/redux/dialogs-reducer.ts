@@ -41,8 +41,11 @@ export const dialogsReducer = (state = initialState, action: any): InitialStateT
 
             return {
                 ...state,
-                dialogs: action.friendsList.map((e: { id: number; userName: string; }) => {
-                    return {id : e.id, name: e.userName}
+                dialogs: action.friendsList.map((e: { id: number; userName: string; }):DialogType => {
+                    return {
+                        id : e.id,
+                        name: e.userName
+                    }
                 })
             }
         }
@@ -52,7 +55,11 @@ export const dialogsReducer = (state = initialState, action: any): InitialStateT
             return {
                 ...state,
                 messages: action.messagesList.items.map((e: { id: number; body: string; senderId: number; }) => {
-                    return {id: e.id, message: e.body, userId: e.senderId}
+                    return {
+                        id: e.id,
+                        message: e.body,
+                        userId: e.senderId
+                    }
                 })
             }
         }
