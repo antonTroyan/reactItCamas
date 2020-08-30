@@ -8,20 +8,25 @@ import thunkMiddleware from "redux-thunk";
 import {reducer as formReducer} from 'redux-form';
 import appReducer from "./app-reducer";
 
-let reducers = combineReducers({
+let rootReducer = combineReducers({
     // state property and handling reducer
-    profilePage: profileReducer,
-    dialogsReducer: dialogsReducer,
-    sidebar: sidebarReducer,
-    usersPage: usersReducer,
-    authReducer: authReducer,
-    form: formReducer,
-    appReducer: appReducer
+    profilePage    :  profileReducer,
+    dialogsReducer :  dialogsReducer,
+    sidebar        :  sidebarReducer,
+    usersPage      :  usersReducer,
+    authReducer    :  authReducer,
+    form           :  formReducer,
+    appReducer     :  appReducer
 });
+
+// This way we make Type from RootReducerType and create state Type automatically
+type RootReducerType = typeof rootReducer;
+export type AppStateType = ReturnType<RootReducerType>;
 
 // applyMiddleware() add new logic layer
 // const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; --- [integration with chrome extension]
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(reducers, composeEnhancers(applyMiddleware(thunkMiddleware)));
+// @ts-ignore
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunkMiddleware)))
 
 export default store;

@@ -2,15 +2,12 @@ import {getUserDataThunkCreator} from "./auth-reducer";
 
 const SET_INITIALIZED_TRUE = 'social/app/SET_INITIALIZED_TRUE';
 
-// Types ////////////////////////////
 type InitialStateType = {
     isAppInitialized: boolean
 }
 type InitializedTrueActionType = {
     type: typeof SET_INITIALIZED_TRUE
 }
-// Types ///////////////////////////
-
 
 let initialState: InitialStateType = {
     isAppInitialized: false,

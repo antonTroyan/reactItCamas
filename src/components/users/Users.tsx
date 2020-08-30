@@ -1,18 +1,23 @@
 import React from "react";
 import Paginator from "../common/paginator/Paginator";
 import User from "./User";
+import {UserType} from "../../types/types";
 
+type PropsType = {
+    currentPage: number
+    totalUsersCount: number
+    pageSize: number
+    onPageChanged: (pageNumber: number) => void
+    users: Array<UserType>
+    isFollowingInProgress: Array<number>
+    startFollow: (userId: number) => void
+    stopFollow: (userId: number) => void
+}
 
-let Users = ({currentPage, totalUsersCount, pageSize, onPageChanged, users, ...props}) => {
-
-    let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
-    let pages = [];
-    for (let pageNumber = 1; pageNumber <= pagesCount; pageNumber++) {
-        pages.push(pageNumber);
-    }
+let Users: React.FC<PropsType> = ({currentPage, totalUsersCount, pageSize, onPageChanged, users, ...props}) => {
 
     return <div>
-        <Paginator currentPage={currentPage}
+        <Paginator currentPageNumber={currentPage}
                    onPageChanged={onPageChanged}
                    totalItemsCount={totalUsersCount}
                    pageSize={pageSize}/>

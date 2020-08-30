@@ -61,7 +61,7 @@ class App extends Component {
                                    render={() => <ProfileContainer/>}/>
 
                             <Route path='/users'
-                                   render={() => <UsersContainer/>}/>
+                                   render={() => <UsersContainer pageTitle={"Samurai"}/>}/>
 
                             <Route path='/login'
                                    render={() => <Login/>}/>

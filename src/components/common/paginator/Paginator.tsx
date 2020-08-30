@@ -10,18 +10,34 @@ import cn from "classnames";
 // cn('menu',{'active':isActive})//'menu'
 // [library to merge style class names]
 
-let Paginator = ({currentPage, totalItemsCount, pageSize, onPageChanged, portionSize = 10}) => {
+type PropsType = {
+    currentPageNumber: number
+    totalItemsCount: number
+    pageSize: number
+    onPageChanged: (pageNumber: number) => void
+    portionSize?: number
+}
 
-    let pagesCount = Math.ceil(totalItemsCount / pageSize);
-    let pages = [];
+//portionSize?: number
+//[?] - means not necessary
+
+let Paginator: React.FC<PropsType> = ({currentPageNumber,
+                                          totalItemsCount,
+                                          pageSize,
+                                          onPageChanged,
+                                          portionSize = 10}) => {
+
+    let pagesCount: number = Math.ceil(totalItemsCount / pageSize);
+    let pages: Array<number>= [];
     for (let pageNumber = 1; pageNumber <= pagesCount; pageNumber++) {
         pages.push(pageNumber);
     }
 
-    let portionCount = Math.ceil(pagesCount / portionSize);
+    let portionCount: number = Math.ceil(pagesCount / portionSize);
     let [portionNumber, setPortionNumber] = useState(1);
-    let leftPortionPageNumber = (portionNumber - 1) * portionSize + 1;
-    let rightPortionPageNumber = portionNumber * portionSize;
+
+    let leftPortionPageNumber : number = (portionNumber - 1) * portionSize + 1;
+    let rightPortionPageNumber: number = portionNumber * portionSize;
 
     return (
         <div className={styles.paginator}>
@@ -36,11 +52,11 @@ let Paginator = ({currentPage, totalItemsCount, pageSize, onPageChanged, portion
                 .map(pageNumber => {
                     return (
                         <span className={cn({
-                            [styles.selectedPage]: currentPage === pageNumber
+                            [styles.selectedPage]: currentPageNumber === pageNumber
                         }, styles.pageNumber)}
                               key={pageNumber}
                               onClick={(e) => {
-                                  if (currentPage !== pageNumber) {
+                                  if (currentPageNumber !== pageNumber) {
                                       onPageChanged(pageNumber)
                                   }
                               }}>
