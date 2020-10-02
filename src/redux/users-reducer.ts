@@ -1,6 +1,9 @@
 import {usersAPI} from "../api/api";
 import {updateObjectInArray} from "../utils/objects-helpers";
-import {PhotosType, UserType} from "../types/types";
+import {UserType} from "../types/types";
+import {AppStateType} from "./redux-store";
+import {ThunkAction} from "redux-thunk";
+import {Dispatch} from "redux";
 
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
@@ -22,20 +25,19 @@ let initialState = {
 
 type InitialState = typeof initialState
 
-export const usersReducer = (state = initialState, action: any): InitialState => {
+export const usersReducer = (state = initialState, action: ActionsTypes): InitialState => {
 
+    // ts determine what object is in each case
     switch (action.type) {
         case FOLLOW:
             return {
                 ...state,
-
                 users: updateObjectInArray(state.users, action.userId, "id", {followed: true})
             };
 
         case UNFOLLOW:
             return {
                 ...state,
-
                 users: updateObjectInArray(state.users, action.userId, "id", {followed: false})
             };
 
@@ -72,6 +74,15 @@ export const usersReducer = (state = initialState, action: any): InitialState =>
     }
 };
 
+type ActionsTypes = FollowActionCreatorType | UnfollowActionCreatorType | SetUsersActionCreatorType
+    | SetCurrentPageActionCreatorType | SetUsersTotalCountActionCreatorType | SetIsFetchingActionCreatorType
+    | SetIsFollowingInProgressActionCreatorType
+
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>;
+type GetStateType = () => AppStateType;
+type DispatchType = Dispatch<ActionsTypes>
+
+
 type FollowActionCreatorType = {
     type: typeof FOLLOW
     userId: number
@@ -83,35 +94,44 @@ type UnfollowActionCreatorType = {
     type: typeof UNFOLLOW
     userId: number
 }
-export const unfollowActionCreator = (userId: number):UnfollowActionCreatorType => ({type: UNFOLLOW, userId});
+export const unfollowActionCreator = (userId: number): UnfollowActionCreatorType => ({type: UNFOLLOW, userId});
 
 
 type SetUsersActionCreatorType = {
     type: typeof SET_USERS
     users: Array<UserType>
 }
-export const setUsersActionCreator = (users: Array<UserType>):SetUsersActionCreatorType => ({type: SET_USERS, users});
+export const setUsersActionCreator = (users: Array<UserType>): SetUsersActionCreatorType => ({type: SET_USERS, users});
 
 
 type SetCurrentPageActionCreatorType = {
     type: typeof SET_CURRENT_PAGE
     pageNumber: number
 }
-export const setCurrentPageActionCreator = (pageNumber: number):SetCurrentPageActionCreatorType => ({type: SET_CURRENT_PAGE, pageNumber});
+export const setCurrentPageActionCreator = (pageNumber: number): SetCurrentPageActionCreatorType => ({
+    type: SET_CURRENT_PAGE,
+    pageNumber
+});
 
 
 type SetUsersTotalCountActionCreatorType = {
     type: typeof SET_TOTAL_USERS_COUNT
     totalCount: number
 }
-export const setUsersTotalCountActionCreator = (totalCount: number): SetUsersTotalCountActionCreatorType => ({type: SET_TOTAL_USERS_COUNT, totalCount});
+export const setUsersTotalCountActionCreator = (totalCount: number): SetUsersTotalCountActionCreatorType => ({
+    type: SET_TOTAL_USERS_COUNT,
+    totalCount
+});
 
 
 type SetIsFetchingActionCreatorType = {
     type: typeof SET_IS_FETCHING
     isFetchingValue: boolean
 }
-export const setIsFetchingActionCreator = (isFetchingValue: boolean):SetIsFetchingActionCreatorType => ({type: SET_IS_FETCHING, isFetchingValue});
+export const setIsFetchingActionCreator = (isFetchingValue: boolean): SetIsFetchingActionCreatorType => ({
+    type: SET_IS_FETCHING,
+    isFetchingValue
+});
 
 
 type SetIsFollowingInProgressActionCreatorType = {
@@ -119,16 +139,17 @@ type SetIsFollowingInProgressActionCreatorType = {
     isFollowingInProgressValue: boolean
     userId: number
 }
-export const setIsFollowingInProgressActionCreator = (isFollowingInProgressValue: boolean, userId: number):SetIsFollowingInProgressActionCreatorType => ({
+export const setIsFollowingInProgressActionCreator = (isFollowingInProgressValue: boolean, userId: number): SetIsFollowingInProgressActionCreatorType => ({
     type: SET_FOLLOWING_PROGRESS,
     isFollowingInProgressValue,
     userId
 });
 
 // special container that allow us to pass data to inner function [currentPage and pageSize]
-export const getUsersThunkCreator = (currentPage: number, pageSize: number) => {
+// according to documentation the best way is to specify return value from thunk by special function [ThunkAction<>]
+export const getUsersThunkCreator = (currentPage: number, pageSize: number): ThunkType => {
 
-    return async (dispatch: any) => {
+    return async (dispatch) => {
         dispatch(setCurrentPageActionCreator(currentPage));
         dispatch(setIsFetchingActionCreator(true));
 
@@ -140,23 +161,27 @@ export const getUsersThunkCreator = (currentPage: number, pageSize: number) => {
 };
 
 
-export const followThunkCreator = (userId: number) => {
+export const followThunkCreator = (userId: number): ThunkType => {
 
-    return async (dispatch: any) => {
+    return async (dispatch) => {
+
         let apiMethod = usersAPI.followSpecialUser.bind(usersAPI);
-        followUnfollowFlow(dispatch, userId, apiMethod, followActionCreator);
+        _followUnfollowFlow(dispatch, userId, apiMethod, followActionCreator);
     }
 };
 
-export const unFollowThunkCreator = (userId: number) => {
+export const unFollowThunkCreator = (userId: number): ThunkType => {
 
     return async (dispatch: any) => {
         let apiMethod = usersAPI.unFollowSpecialUser.bind(usersAPI);
-        followUnfollowFlow(dispatch, userId, apiMethod, unfollowActionCreator);
+        _followUnfollowFlow(dispatch, userId, apiMethod, unfollowActionCreator);
     }
 };
 
-const followUnfollowFlow = async (dispatch: any, userId: number, apiMethod: any, actionCreator: any) => {
+const _followUnfollowFlow = async (dispatch: DispatchType,
+                                   userId: number,
+                                   apiMethod: any,
+                                   actionCreator: (userId: number) => FollowActionCreatorType | UnfollowActionCreatorType) => {
 
     dispatch(setIsFollowingInProgressActionCreator(true, userId))
     let response = await apiMethod(userId);
