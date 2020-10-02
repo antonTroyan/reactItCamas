@@ -1,6 +1,8 @@
 import {profileApi} from "../api/api";
 import {stopSubmit} from "redux-form";
 import {PhotosType, PostType, ProfileType} from "../types/types";
+import {ThunkAction} from "redux-thunk";
+import {AppStateType} from "./redux-store";
 
 
 const ADD_POST = 'ADD-POST';
@@ -24,7 +26,7 @@ let initialState = {
 
 export type InitialStateType = typeof initialState;
 
-export const profileReducer = (state = initialState, action: any): InitialStateType => {
+export const profileReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
 
     switch (action.type) {
 
@@ -66,6 +68,11 @@ export const profileReducer = (state = initialState, action: any): InitialStateT
     }
 };
 
+type ActionsTypes = AddPostActionCreatorType | SetUserProfileActionCreatorType | UpdateUserStatusActionCreatorType |
+    DeletePostActionCreatorType | SavePhotoActionCreatorType | SetEditModeEnabledActionCreatorType
+
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>;
+
 type AddPostActionCreatorType = {
     type : typeof ADD_POST
     newPostBody : string
@@ -85,7 +92,7 @@ type SetUserProfileActionCreatorType = {
 
 export const setUserProfileActionCreator = (profile: ProfileType): SetUserProfileActionCreatorType => ({type: SET_USER_PROFILE, profile});
 
-export const getUserProfileThunkCreator = (userId: number) => async (dispatch:any) => {
+export const getUserProfileThunkCreator = (userId: number) : ThunkType => async (dispatch) => {
 
     let response = await profileApi.downloadUserProfile(userId);
     dispatch(setUserProfileActionCreator(response))
@@ -98,13 +105,13 @@ type UpdateUserStatusActionCreatorType = {
 
 export const updateUserStatusActionCreator = (profileStatus: string): UpdateUserStatusActionCreatorType => ({type: UPDATE_STATUS, profileStatus});
 
-export const getUsersStatusThunkCreator = (userId: number) => async (dispatch: any) => {
+export const getUsersStatusThunkCreator = (userId: number) : ThunkType => async (dispatch) => {
 
     let response = await profileApi.downloadUserStatus(userId);
     dispatch(updateUserStatusActionCreator(response.data))
 };
 
-export const updateUserStatusThunkCreator = (status: string) => async (dispatch: any) => {
+export const updateUserStatusThunkCreator = (status: string) : ThunkType => async (dispatch) => {
     // handle error codes
     try {
         let response = await profileApi.updateUserStatus(status);
@@ -128,7 +135,7 @@ type SavePhotoActionCreatorType = {
 }
 export const savePhotoActionCreator = (photos: PhotosType): SavePhotoActionCreatorType => ({type: SAVE_PHOTO, photos})
 
-export const savePhotoThunkCreator = (photo: PhotosType) => async (dispatch:any) => {
+export const savePhotoThunkCreator = (photo: PhotosType) : ThunkType => async (dispatch) => {
     let response = await profileApi.savePhoto(photo);
 
     if (response.resultCode === 0) {
@@ -136,12 +143,17 @@ export const savePhotoThunkCreator = (photo: PhotosType) => async (dispatch:any)
     }
 };
 
-export const setEditModeEnabledActionCreator = (resultValue: boolean) => ({
+type SetEditModeEnabledActionCreatorType = {
+    type: typeof IS_EDIT_MODE_ENABLED
+    resultValue : boolean
+}
+
+export const setEditModeEnabledActionCreator = (resultValue: boolean) : SetEditModeEnabledActionCreatorType => ({
     type: IS_EDIT_MODE_ENABLED,
     resultValue
 });
 
-export const saveProfileThunkCreator = (profile: ProfileType) => async (dispatch: any, getState: any) => {
+export const saveProfileThunkCreator = (profile: ProfileType): ThunkType => async (dispatch: any, getState: any) => {
 
     const userId = getState().authReducer.userId;
     const response = await profileApi.saveProfile(profile);

@@ -1,4 +1,6 @@
 import {messagesApi} from "../api/api";
+import {ThunkAction} from "redux-thunk";
+import {AppStateType} from "./redux-store";
 
 const SEND_MESSAGE = 'SEND_MESSAGE';
 const SET_FRIENDS = 'SET_FRIENDS';
@@ -11,7 +13,7 @@ type DialogType = {
 }
 
 type MessageType = {
-    senderId: number
+    senderId: number | null
     message: string
 }
 
@@ -22,7 +24,7 @@ let initialState = {
 
 type InitialStateType = typeof initialState
 
-export const dialogsReducer = (state = initialState, action: any): InitialStateType => {
+export const dialogsReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
 
     switch (action.type) {
 
@@ -41,7 +43,7 @@ export const dialogsReducer = (state = initialState, action: any): InitialStateT
 
             return {
                 ...state,
-                dialogs: action.friendsList.map((e: { id: number; userName: string; }):DialogType => {
+                dialogs: action.friendsList.map((e: any):DialogType => {
                     return {
                         id : e.id,
                         name: e.userName
@@ -69,9 +71,13 @@ export const dialogsReducer = (state = initialState, action: any): InitialStateT
     }
 };
 
+type ActionsTypes = SetMessagesActionCreatorType | SendMessageActionCreatorType | SetFriendsActionCreatorType
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>;
+type GetStateType = () => AppStateType;
+
 type SetMessagesActionCreatorType = {
     type: typeof SET_MESSAGES,
-    messagesList : Array<MessageType>
+    messagesList : any
 }
 export const setMessagesActionCreator = (messagesList: Array<MessageType>): SetMessagesActionCreatorType => {
     return {
@@ -84,9 +90,9 @@ export const setMessagesActionCreator = (messagesList: Array<MessageType>): SetM
 type SendMessageActionCreatorType = {
     type: typeof SEND_MESSAGE,
     newMessageBody : string,
-    messageSenderId : number
+    messageSenderId : number | null
 }
-export const sendMessageActionCreator = (messageSenderId: number, newMessageBody: string): SendMessageActionCreatorType => {
+export const sendMessageActionCreator = (messageSenderId: number | null, newMessageBody: string): SendMessageActionCreatorType => {
     return {
         type: SEND_MESSAGE,
         newMessageBody : newMessageBody,
@@ -107,7 +113,7 @@ export const setFriendsActionCreator = (friendsList: Array<DialogType>): SetFrie
 };
 
 
-export const onSendMessageClickThunkCreator = (recipientId: number, messageText: string) => async (dispatch: any, getState: any) => {
+export const onSendMessageClickThunkCreator = (recipientId: number, messageText: string): ThunkType => async (dispatch, getState: GetStateType) => {
     const response = await messagesApi.sendMessage(recipientId, messageText);
     const messageSenderId = getState().authReducer.userId;
 
@@ -117,7 +123,7 @@ export const onSendMessageClickThunkCreator = (recipientId: number, messageText:
 }
 
 
-export const downloadFriendsThunkCreator = () => async (dispatch:any) => {
+export const downloadFriendsThunkCreator = (): ThunkType => async (dispatch) => {
     const response = await messagesApi.downloadFriends();
 
     if (response.status === 200) {
@@ -125,7 +131,7 @@ export const downloadFriendsThunkCreator = () => async (dispatch:any) => {
     }
 }
 
-export const downloadMessagesThunkCreator = (userId: number) => async (dispatch: any) => {
+export const downloadMessagesThunkCreator = (userId: number): ThunkType => async (dispatch) => {
     const response = await messagesApi.downloadMessages(userId);
 
     if (response.status === 200) {

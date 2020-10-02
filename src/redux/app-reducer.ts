@@ -1,13 +1,13 @@
 import {getUserDataThunkCreator} from "./auth-reducer";
+import {ThunkAction} from "redux-thunk";
+import {AppStateType} from "./redux-store";
 
 const SET_INITIALIZED_TRUE = 'social/app/SET_INITIALIZED_TRUE';
 
 type InitialStateType = {
     isAppInitialized: boolean
 }
-type InitializedTrueActionType = {
-    type: typeof SET_INITIALIZED_TRUE
-}
+
 
 let initialState: InitialStateType = {
     isAppInitialized: false,
@@ -15,7 +15,7 @@ let initialState: InitialStateType = {
 
 
 // [:InitialStateType] means type of return value
-export const appReducer = (state = initialState, action: any): InitialStateType => {
+export const appReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
 
     switch (action.type) {
 
@@ -30,16 +30,35 @@ export const appReducer = (state = initialState, action: any): InitialStateType 
     }
 };
 
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>;
+
+type ActionsTypes = InitializedTrueActionType
+
+type InitializedTrueActionType = {
+    type: typeof SET_INITIALIZED_TRUE
+}
+
 export const setInitializedTrueActionCreator = (): InitializedTrueActionType => ({type: SET_INITIALIZED_TRUE});
 
-export const initializeAppThunkCreator = () => (dispatch: any) => {
+// [Another declaration way]
+// export const initializeAppThunkCreator = () : ThunkType => (dispatch) => {
+//
+//     let promise = dispatch(getUserDataThunkCreator());
+//     // set initialized to true only when amIAuthorized will be completed
+//     promise.then(() => {
+//         dispatch(setInitializedTrueActionCreator());
+//     })
+// };
 
-    let promise = dispatch(getUserDataThunkCreator());
+export const initializeAppThunkCreator = () : ThunkType => {
 
-    // set initialized to true only when isIAuthorized will be completed
-    promise.then(() => {
-        dispatch(setInitializedTrueActionCreator());
-    })
+    return async (dispatch) => {
+        let promise = dispatch(getUserDataThunkCreator());
+        // set initialized to true only when amIAuthorized will be completed
+        promise.then(() => {
+            dispatch(setInitializedTrueActionCreator());
+        })
+    }
 };
 
 

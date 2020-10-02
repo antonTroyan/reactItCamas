@@ -164,7 +164,6 @@ export const getUsersThunkCreator = (currentPage: number, pageSize: number): Thu
 export const followThunkCreator = (userId: number): ThunkType => {
 
     return async (dispatch) => {
-
         let apiMethod = usersAPI.followSpecialUser.bind(usersAPI);
         _followUnfollowFlow(dispatch, userId, apiMethod, followActionCreator);
     }
@@ -172,7 +171,7 @@ export const followThunkCreator = (userId: number): ThunkType => {
 
 export const unFollowThunkCreator = (userId: number): ThunkType => {
 
-    return async (dispatch: any) => {
+    return async (dispatch) => {
         let apiMethod = usersAPI.unFollowSpecialUser.bind(usersAPI);
         _followUnfollowFlow(dispatch, userId, apiMethod, unfollowActionCreator);
     }
