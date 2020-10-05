@@ -1,4 +1,4 @@
-import {authApi, securityApi} from "../api/api";
+import {authApi, ResultCodesEnum, ResultCodesWithCaptchaEnum, securityApi} from "../api/api";
 import {stopSubmit} from 'redux-form';
 import {ThunkAction} from "redux-thunk";
 import {AppStateType} from "./redux-store";
@@ -85,11 +85,11 @@ export const setUserAuthDataActionCreator =
 export const getUserDataThunkCreator = (): ThunkType => async (dispatch) => {
 
     // return data to check when dispatch will be done
-    let response = await authApi.amIAuthorized();
-    if (response.data.resultCode === 0) {
-        let userId = response.data.data.id;
-        let email = response.data.data.email;
-        let login = response.data.data.login;
+    let meData = await authApi.amIAuthorized();
+    if (meData.resultCode === 0) {
+        let userId = meData.data.id;
+        let email = meData.data.email;
+        let login = meData.data.login;
 
         dispatch(setUserAuthDataActionCreator(userId, email, login, true));
     }
@@ -97,16 +97,16 @@ export const getUserDataThunkCreator = (): ThunkType => async (dispatch) => {
 
 export const loginThunkCreator = (email: string, password: string, rememberMe: boolean, captcha: string) => async (dispatch: any) => {
 
-    let response = await authApi.login(email, password, rememberMe, captcha)
+    let loginData = await authApi.login(email, password, rememberMe, captcha)
 
-    if (response.data.resultCode === 0) {
+    if (loginData.resultCode === ResultCodesEnum.Success) {
         dispatch(getUserDataThunkCreator());
     } else {
-        if (response.data.resultCode === 10) {
+        if (loginData.resultCode === ResultCodesWithCaptchaEnum.CaptchaIsRequired) {
             dispatch(getCaptchaUrlThunkCreator())
         }
 
-        let message = response.data.messages.length > 0 ? response.data.messages[0] : "Server does not return error message"
+        let message = loginData.messages.length > 0 ? loginData.messages[0] : "Server does not return error message"
 
         // stopSubmit special option to highlight special field with special message
         // '_error' means form common error not special field
@@ -137,7 +137,7 @@ export const logoutThunkCreator = () : ThunkType => async (dispatch) => {
 
     let response = await authApi.logout();
 
-    if (response.data.resultCode === 0) {
+    if (response.data.resultCode === ResultCodesEnum.Success) {
         dispatch(setUserAuthDataActionCreator(null, null, null, false));
     }
 };

@@ -1,4 +1,5 @@
-import * as axios from "axios";
+import axios from "axios";
+import {ProfileType} from "../types/types";
 
 // {withCredentials : true} - need to allow server to send cookies cross servers
 const instance = axios.create({
@@ -11,21 +12,21 @@ const instance = axios.create({
 
 export const usersAPI = {
 
-    getAllUsers(currentPage = 1, pageSize) {
+    getAllUsers(currentPage = 1, pageSize: number) {
         return instance.get(`users?page=${currentPage}&count=${pageSize}`)
             .then(response => {
                 return response.data;
             });
     },
 
-    followSpecialUser(userId) {
+    followSpecialUser(userId: number) {
         return instance.post(`follow/${userId}`)
             .then(response => {
                 return response.data;
             })
     },
 
-    unFollowSpecialUser(userId) {
+    unFollowSpecialUser(userId: number) {
         return instance.delete(`follow/${userId}`)
             .then(response => {
                 return response.data;
@@ -33,14 +34,45 @@ export const usersAPI = {
     }
 };
 
+export enum ResultCodesEnum {
+    Success = 0,
+    Error = 1,
+}
+
+export enum ResultCodesWithCaptchaEnum {
+    CaptchaIsRequired = 10
+}
+
+
+// We declared dataMeType inside MeResponseType directly
+// Alternative declaration way
+type MeResponseType = {
+    data : {
+        id : number,
+        email : string
+        login : string
+    }
+    resultCode : ResultCodesEnum
+    messages : Array<string>
+}
+
+type LoginResponseType = {
+    data : {
+        userId : number
+    }
+    resultCode : ResultCodesEnum | ResultCodesWithCaptchaEnum
+    messages : Array<string>
+}
+
 export const authApi = {
 
     amIAuthorized() {
-        return instance.get(`auth/me`);
+        return instance.get<MeResponseType>(`auth/me`).then(response => response.data);
     },
 
-    login(email, password, rememberMe = false, captcha = null) {
-        return instance.post('auth/login', {email, password, rememberMe, captcha});
+    login(email: string, password: string, rememberMe = false, captcha: null | string = null) {
+        return instance.post<LoginResponseType>('auth/login', {email, password, rememberMe, captcha})
+            .then(response => response.data);
     },
 
     logout() {
@@ -50,14 +82,14 @@ export const authApi = {
 
 export const profileApi = {
 
-    downloadUserProfile(userId) {
+    downloadUserProfile(userId: number) {
         return instance.get(`profile/${userId}`)
             .then(response => {
                 return response.data;
             })
     },
 
-    savePhoto(photoFile) {
+    savePhoto(photoFile: any) {
         const formData = new FormData();
         formData.append("image", photoFile);
         return instance.put(`profile/photo`, formData, {
@@ -69,19 +101,19 @@ export const profileApi = {
         })
     },
 
-    downloadUserStatus(userId) {
+    downloadUserStatus(userId: number) {
         return instance.get(`profile/status/${userId}`);
     },
 
     // Server knows which status to update using session.
     // According API we need to send json object with key - status.
-    updateUserStatus(statusValue) {
+    updateUserStatus(statusValue: string) {
         return instance.put('profile/status',
             {status: statusValue}
         );
     },
 
-    saveProfile(profile) {
+    saveProfile(profile: ProfileType) {
         return instance.put('profile', profile)
     }
 };
@@ -95,11 +127,11 @@ export const securityApi = {
 
 export const messagesApi = {
 
-    downloadMessages(userId) {
+    downloadMessages(userId: number) {
         return instance.get(`dialogs/${userId}/messages`);
     },
 
-    sendMessage(userId, messageText) {
+    sendMessage(userId: number, messageText: string) {
         return instance.post(`dialogs/${userId}/messages`, {
             body : messageText
         });
