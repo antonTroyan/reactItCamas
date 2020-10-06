@@ -2,11 +2,16 @@ import React from 'react';
 import {InputCustomWrapper, TextAreaCustomWrapper, createField} from '../common/FormsControls/FormsControls';
 import {requiredField} from '../../utils/validators/validators';
 import style from "./../common/FormsControls/FormControls.module.css"
+import {InjectedFormProps} from "redux-form";
+import {LoginFormOwnPropsType, LoginFormValuesType} from "./Login";
 
 // redux-form prevent default page reloading using HOC wrapper method
 // onSubmit={props.handleSubmit}
 
-const LoginForm = ({handleSubmit, error, captchaUrl}) => {
+
+const LoginForm: React.FC<InjectedFormProps<LoginFormValuesType, LoginFormOwnPropsType> & LoginFormOwnPropsType>
+    = ({handleSubmit, error, captchaUrl}) => {
+
     return (
         <form onSubmit={handleSubmit}>
 
