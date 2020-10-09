@@ -1,6 +1,7 @@
-import {messagesApi} from "../api/api";
+
 import {ThunkAction} from "redux-thunk";
 import {AppStateType} from "./redux-store";
+import {messagesApi} from "../api/message-api";
 
 const SEND_MESSAGE = 'SEND_MESSAGE';
 const SET_FRIENDS = 'SET_FRIENDS';

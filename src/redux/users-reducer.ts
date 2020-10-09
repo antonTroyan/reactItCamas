@@ -1,9 +1,9 @@
-import {usersAPI} from "../api/api";
 import {updateObjectInArray} from "../utils/objects-helpers";
 import {UserType} from "../types/types";
 import {AppStateType, InferActionTypes} from "./redux-store";
 import {ThunkAction} from "redux-thunk";
 import {Dispatch} from "redux";
+import {usersAPI} from "../api/users-api";
 
 
 let initialState = {
@@ -96,10 +96,10 @@ export const getUsersThunkCreator = (currentPage: number, pageSize: number): Thu
         dispatch(actions.setCurrentPageActionCreator(currentPage));
         dispatch(actions.setIsFetchingActionCreator(true));
 
-        let response = await usersAPI.getAllUsers(currentPage, pageSize);
+        let data = await usersAPI.getAllUsers(currentPage, pageSize);
         dispatch(actions.setIsFetchingActionCreator(false));
-        dispatch(actions.setUsersActionCreator(response.items));
-        dispatch(actions.setUsersTotalCountActionCreator(response.totalCount));
+        dispatch(actions.setUsersActionCreator(data.items));
+        dispatch(actions.setUsersTotalCountActionCreator(data.totalCount));
     }
 };
 

@@ -1,8 +1,9 @@
-import {profileApi} from "../api/api";
+
 import {stopSubmit} from "redux-form";
 import {PhotosType, PostType, ProfileType} from "../types/types";
 import {ThunkAction} from "redux-thunk";
 import {AppStateType} from "./redux-store";
+import {profileApi} from "../api/profile-api";
 
 
 const ADD_POST = 'ADD-POST';
@@ -115,7 +116,7 @@ export const updateUserStatusThunkCreator = (status: string) : ThunkType => asyn
     // handle error codes
     try {
         let response = await profileApi.updateUserStatus(status);
-        if (response.data.resultCode === 0) {
+        if (response.resultCode === 0) {
             dispatch(updateUserStatusActionCreator(status))
         }
     } catch (error) {
@@ -156,13 +157,13 @@ export const setEditModeEnabledActionCreator = (resultValue: boolean) : SetEditM
 export const saveProfileThunkCreator = (profile: ProfileType): ThunkType => async (dispatch: any, getState: any) => {
 
     const userId = getState().authReducer.userId;
-    const response = await profileApi.saveProfile(profile);
+    const data = await profileApi.saveProfile(profile);
 
-    if (response.data.resultCode === 0) {
+    if (data.resultCode === 0) {
         dispatch(getUserProfileThunkCreator(userId))
         dispatch(setEditModeEnabledActionCreator(false))
     } else {
-        const message = response.data.messages.length > 0 ? response.data.messages[0] : "Server does not return error message"
+        const message = data.messages.length > 0 ? data.messages[0] : "Server does not return error message"
         let errorField = extractErrorField(message)
 
         // [errorField] using brackets we allowed to use variable as key
