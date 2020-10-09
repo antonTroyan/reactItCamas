@@ -1,7 +1,7 @@
-import {connect, DefaultRootState} from 'react-redux';
+import {connect} from 'react-redux';
 import UsersAPIComponent, {MapDispatchPropsType, MapStatePropsType, OwnPropsType} from './UsersAPIComponent';
 import {
-    setIsFollowingInProgressActionCreator, getUsersThunkCreator, followThunkCreator, unFollowThunkCreator
+    getUsersThunkCreator, followThunkCreator, unFollowThunkCreator
 } from '../../redux/users-reducer';
 import {compose} from 'redux';
 import {withAuthRedirect} from '../../hoc/withAuthRedirect';
