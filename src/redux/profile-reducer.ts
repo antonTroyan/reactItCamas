@@ -1,10 +1,8 @@
-
 import {stopSubmit} from "redux-form";
 import {PhotosType, PostType, ProfileType} from "../types/types";
-import {ThunkAction} from "redux-thunk";
-import {AppStateType} from "./redux-store";
+import {BaseThunkType, InferActionTypes} from "./redux-store";
 import {profileApi} from "../api/profile-api";
-
+import {ResultCodesEnum} from "../api/api";
 
 const ADD_POST = 'ADD-POST';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
@@ -12,7 +10,6 @@ const UPDATE_STATUS = 'UPDATE_STATUS';
 const DELETE_POST = 'DELETE_POST';
 const SAVE_PHOTO = 'SAVE_PHOTO';
 const IS_EDIT_MODE_ENABLED = 'IS_EDIT_MODE_ENABLED';
-
 
 let initialState = {
     posts: [
@@ -26,6 +23,9 @@ let initialState = {
 };
 
 export type InitialStateType = typeof initialState;
+
+type ThunkType = BaseThunkType<ActionsTypes | ReturnType <typeof stopSubmit>>
+type ActionsTypes = InferActionTypes<typeof actions>
 
 export const profileReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
 
@@ -69,99 +69,59 @@ export const profileReducer = (state = initialState, action: ActionsTypes): Init
     }
 };
 
-type ActionsTypes = AddPostActionCreatorType | SetUserProfileActionCreatorType | UpdateUserStatusActionCreatorType |
-    DeletePostActionCreatorType | SavePhotoActionCreatorType | SetEditModeEnabledActionCreatorType
 
-type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>;
+export const actions = {
 
-type AddPostActionCreatorType = {
-    type : typeof ADD_POST
-    newPostBody : string
+    addPostActionCreator: (newPostBody: string) => ({type: ADD_POST, newPostBody} as const),
+    setUserProfileActionCreator: (profile: ProfileType) => ({type: SET_USER_PROFILE, profile} as const),
+    updateUserStatusActionCreator: (profileStatus: string) => ({type: UPDATE_STATUS, profileStatus} as const),
+    deletePostActionCreator: (postId: number) => ({type: DELETE_POST, postId} as const),
+    savePhotoActionCreator: (photos: PhotosType) => ({type: SAVE_PHOTO, photos} as const),
+    setEditModeEnabledActionCreator: (resultValue: boolean) => ({type: IS_EDIT_MODE_ENABLED, resultValue} as const)
+
 }
-
-export const addPostActionCreator = (newPostBody: string):AddPostActionCreatorType => {
-    return {
-        type: ADD_POST,
-        newPostBody
-    }
-};
-
-type SetUserProfileActionCreatorType = {
-    type: typeof SET_USER_PROFILE
-    profile: ProfileType
-}
-
-export const setUserProfileActionCreator = (profile: ProfileType): SetUserProfileActionCreatorType => ({type: SET_USER_PROFILE, profile});
 
 export const getUserProfileThunkCreator = (userId: number) : ThunkType => async (dispatch) => {
-
-    let response = await profileApi.downloadUserProfile(userId);
-    dispatch(setUserProfileActionCreator(response))
+    let response = await profileApi.downloadUserProfile(userId)
+    dispatch(actions.setUserProfileActionCreator(response))
 };
 
-type UpdateUserStatusActionCreatorType = {
-    type: typeof UPDATE_STATUS
-    profileStatus : string
-}
-
-export const updateUserStatusActionCreator = (profileStatus: string): UpdateUserStatusActionCreatorType => ({type: UPDATE_STATUS, profileStatus});
-
 export const getUsersStatusThunkCreator = (userId: number) : ThunkType => async (dispatch) => {
-
-    let response = await profileApi.downloadUserStatus(userId);
-    dispatch(updateUserStatusActionCreator(response.data))
+    let response = await profileApi.downloadUserStatus(userId)
+    dispatch(actions.updateUserStatusActionCreator(response.data))
 };
 
 export const updateUserStatusThunkCreator = (status: string) : ThunkType => async (dispatch) => {
     // handle error codes
     try {
-        let response = await profileApi.updateUserStatus(status);
+        let response = await profileApi.updateUserStatus(status)
         if (response.resultCode === 0) {
-            dispatch(updateUserStatusActionCreator(status))
+            dispatch(actions.updateUserStatusActionCreator(status))
         }
     } catch (error) {
         console.log(error)
     }
 };
 
-type DeletePostActionCreatorType = {
-    type: typeof DELETE_POST
-    postId : number
-}
-export const deletePostActionCreator = (postId: number): DeletePostActionCreatorType => ({type: DELETE_POST, postId})
-
-type SavePhotoActionCreatorType = {
-    type: typeof SAVE_PHOTO
-    photos: PhotosType
-}
-export const savePhotoActionCreator = (photos: PhotosType): SavePhotoActionCreatorType => ({type: SAVE_PHOTO, photos})
-
 export const savePhotoThunkCreator = (photo: PhotosType) : ThunkType => async (dispatch) => {
-    let response = await profileApi.savePhoto(photo);
-
+    let response = await profileApi.savePhoto(photo)
     if (response.resultCode === 0) {
-        dispatch(savePhotoActionCreator(response.data.photos))
+        dispatch(actions.savePhotoActionCreator(response.data.photos))
     }
 };
 
-type SetEditModeEnabledActionCreatorType = {
-    type: typeof IS_EDIT_MODE_ENABLED
-    resultValue : boolean
-}
+export const saveProfileThunkCreator = (profile: ProfileType): ThunkType => async (dispatch, getState) => {
+    const userId = getState().authReducer.userId
+    const data = await profileApi.saveProfile(profile)
 
-export const setEditModeEnabledActionCreator = (resultValue: boolean) : SetEditModeEnabledActionCreatorType => ({
-    type: IS_EDIT_MODE_ENABLED,
-    resultValue
-});
+    if (data.resultCode === ResultCodesEnum.Success) {
+        if (userId != null) {
+            await dispatch(getUserProfileThunkCreator(userId))
+            dispatch(actions.setEditModeEnabledActionCreator(false))
+        } else {
+            throw new Error("UserId can`t be [null]!")
+        }
 
-export const saveProfileThunkCreator = (profile: ProfileType): ThunkType => async (dispatch: any, getState: any) => {
-
-    const userId = getState().authReducer.userId;
-    const data = await profileApi.saveProfile(profile);
-
-    if (data.resultCode === 0) {
-        dispatch(getUserProfileThunkCreator(userId))
-        dispatch(setEditModeEnabledActionCreator(false))
     } else {
         const message = data.messages.length > 0 ? data.messages[0] : "Server does not return error message"
         let errorField = extractErrorField(message)

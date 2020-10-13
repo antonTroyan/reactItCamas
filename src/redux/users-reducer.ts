@@ -1,6 +1,6 @@
 import {updateObjectInArray} from "../utils/objects-helpers";
 import {UserType} from "../types/types";
-import {AppStateType, InferActionTypes} from "./redux-store";
+import {AppStateType, BaseThunkType, InferActionTypes} from "./redux-store";
 import {ThunkAction} from "redux-thunk";
 import {Dispatch} from "redux";
 import {usersAPI} from "../api/users-api";
@@ -83,8 +83,7 @@ export const actions = {
     } as const),
 }
 
-type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>;
-type GetStateType = () => AppStateType;
+type ThunkType = BaseThunkType<ActionsTypes>;
 type DispatchType = Dispatch<ActionsTypes>
 
 
