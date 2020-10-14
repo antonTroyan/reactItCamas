@@ -36,7 +36,7 @@ const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunkMid
 type PropertiesTypes<T> = T extends {[key: string]: infer U} ? U : never
 
 // {[key: string]: (...args: any[]) => any} - key string and value function that takes smth and return smth
-export type InferActionTypes<T extends {[key: string]: (...args: any[]) => any}> = ReturnType<PropertiesTypes<T>>
+export type InferActionTypes<T> = T extends {[keys: string] : (...args: any[]) => infer U} ? U : never
 
 // AT - action types
 export type BaseThunkType<AT extends Action, R = Promise<void>> = ThunkAction<R, AppStateType, unknown, AT>;

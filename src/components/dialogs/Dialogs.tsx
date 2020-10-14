@@ -4,11 +4,19 @@ import DialogItem from './dialogItem/DialogItem';
 import {Redirect, Route} from 'react-router-dom';
 import Preloader from "../common/preloader/preloader";
 import MessagesList from "./MessagesList";
+import {InitialStateType} from "../../redux/dialogs-reducer";
 
+type OwnPropsType = {
+    messagesPage: InitialStateType
+    downloadFriendsThunkCreator: () => void
+    isAuth: () => void
+    downloadMessagesThunkCreator: () => void
+    onSendMessageClickThunkCreator: () => void
+}
 
-const Dialogs = (props) => {
+const Dialogs: React.FC<OwnPropsType> = (props) => {
 
-    const mounted = useRef();
+    const mounted = useRef<boolean>();
     useEffect(() => {
         if (!mounted.current) {
             props.downloadFriendsThunkCreator()
@@ -34,6 +42,7 @@ const Dialogs = (props) => {
 
     return (
         <div className={s.dialogs}>
+
             <div className={s.dialogsItems}>
                 {dialogsElements}
             </div>

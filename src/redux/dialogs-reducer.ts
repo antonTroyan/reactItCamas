@@ -15,7 +15,7 @@ type DialogType = {
     name: string
 }
 
-type MessageType = {
+export type MessageType = {
     senderId: number | null
     message: string
 }
@@ -25,7 +25,7 @@ let initialState = {
     messages: [] as Array<MessageType>
 };
 
-type InitialStateType = typeof initialState
+export type InitialStateType = typeof initialState
 
 type ActionsTypes = InferActionTypes<typeof actions>
 
