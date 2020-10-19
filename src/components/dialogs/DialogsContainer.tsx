@@ -8,6 +8,7 @@ import Dialogs from './Dialogs';
 import {withAuthRedirect} from '../../hoc/withAuthRedirect';
 import {compose} from 'redux';
 import {AppStateType} from "../../redux/redux-store";
+import React from "react";
 
 let mapStateToProps = (state: AppStateType) => {
     return {
@@ -16,7 +17,7 @@ let mapStateToProps = (state: AppStateType) => {
 };
 
 // this function aggregate wrappers
-export default compose(
+export default compose<React.ComponentType>(
     connect(mapStateToProps, {
         downloadFriendsThunkCreator: downloadFriendsThunkCreator,
         downloadMessagesThunkCreator: downloadMessagesThunkCreator,

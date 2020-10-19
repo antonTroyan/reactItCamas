@@ -9,16 +9,21 @@ import Login from './components/login/Login';
 import {connect, Provider} from 'react-redux';
 import {initializeAppThunkCreator} from './redux/app-reducer';
 import Preloader from './components/common/preloader/preloader';
-import store from './redux/redux-store'
+import store, {AppStateType} from './redux/redux-store'
 
 // https://ru.reactjs.org/docs/code-splitting.html
 // DialogsContainer component will be downloaded not on the first random page downloading
 // but on the specific page associated with this container
 const DialogsContainer = React.lazy(() => import('./components/dialogs/DialogsContainer'))
 
-class App extends Component {
+type MapPropsType = ReturnType<typeof mapStateToProps>
+type DispatchPropsType = {
+    initializeAppThunkCreator: () => void
+}
 
-    catchAllUnhandledErrors = (promiseRejectionEvent) => {
+class App extends Component<MapPropsType & DispatchPropsType> {
+
+    catchAllUnhandledErrors = (promiseRejectionEvent: PromiseRejectionEvent) => {
         alert("Some error occurred!" + promiseRejectionEvent)
     }
 
@@ -61,7 +66,7 @@ class App extends Component {
                                    render={() => <ProfileContainer/>}/>
 
                             <Route path='/users'
-                                   render={() => <UsersContainer pageTitle={"Samurai"}/>}/>
+                                   render={() => <UsersContainer/>}/>
 
                             <Route path='/login'
                                    render={() => <Login/>}/>
@@ -76,7 +81,7 @@ class App extends Component {
     }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppStateType) => ({
     isAppInitialized: state.appReducer.isAppInitialized
 })
 
@@ -84,7 +89,7 @@ let AppContainer = connect(mapStateToProps, {
     initializeAppThunkCreator: initializeAppThunkCreator
 })(App);
 
-const SamuraiJsApp = (props) => {
+const SamuraiJsApp: React.FC = () => {
     return <BrowserRouter>
         <Provider store={store}>
             <AppContainer/>

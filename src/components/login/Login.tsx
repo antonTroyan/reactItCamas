@@ -12,8 +12,8 @@ const LoginReduxForm = reduxForm<LoginFormValuesType, LoginFormOwnPropsType>({fo
 
 
 type MapStateToPropsType = {
-    captchaUrl : string | null | undefined
-    isAuth : boolean
+    captchaUrl: string | null | undefined
+    isAuth: boolean
 }
 
 type MapDispatchToPropsType = {
@@ -21,23 +21,20 @@ type MapDispatchToPropsType = {
 }
 
 export type LoginFormValuesType = {
-    email : string
-    password : string
-    rememberMe : boolean
-    captcha : string
+    email: string
+    password: string
+    rememberMe: boolean
+    captcha: string
 }
 
 export type LoginFormOwnPropsType = {
     captchaUrl : string | null | undefined
 }
 
-
-
-
 // {loginThunkCreator, isAuth} destructualization instead of passing props
 const Login: React.FC<MapStateToPropsType & MapDispatchToPropsType> = ({loginThunkCreator, isAuth, captchaUrl}) => {
 
-    const onSubmit = (formData: any) => {
+    const onSubmit = (formData: LoginFormValuesType) => {
         loginThunkCreator(formData.email, formData.password, formData.rememberMe, formData.captcha)
     }
 

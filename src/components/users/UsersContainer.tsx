@@ -14,6 +14,7 @@ import {
     getFollowingProgress
 } from '../../redux/users-selectors';
 import {AppStateType} from "../../redux/redux-store";
+import React from "react";
 
 
 let mapStateToProps = (state: AppStateType): MapStatePropsType => {
@@ -28,7 +29,7 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
 };
 
 // Here we specify all out types of props
-export default compose(connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(mapStateToProps,
+export default compose<React.ComponentType>(connect<MapStatePropsType, MapDispatchPropsType, OwnPropsType, AppStateType>(mapStateToProps,
     {
         getUsersThunkCreator: getUsersThunkCreator,
         followThunkCreator: followThunkCreator,
