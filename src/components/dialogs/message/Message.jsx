@@ -3,7 +3,6 @@ import s from './../Dialogs.module.css';
 
 const Message = (props) => {
 
-    debugger
     return (
         <div>
             {props.isMyMessage

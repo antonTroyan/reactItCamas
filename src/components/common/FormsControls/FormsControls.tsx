@@ -37,14 +37,10 @@ export const InputCustomWrapper = ({input, meta, ...props}) => {
 
 export const createField = (placeholder: string,
                             name: string,
-                            component: ({
-                                            input,
-                                            meta: {touched, error}, ...props
-                                        }: {
+                            component: ({input, meta: {touched, error}, ...props}: {
                                 input: any;
                                 meta: { touched: any; error: any };
-                                [p: string]: any
-                            })
+                                [p: string]: any })
                                 => JSX.Element,
                             validators: Array<FieldValidatorType>,
                             type = {}, text = "") => (

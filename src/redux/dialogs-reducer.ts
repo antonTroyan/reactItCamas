@@ -57,7 +57,8 @@ export const dialogsReducer = (state = initialState, action: ActionsTypes): Init
         case SET_MESSAGES: {
             return {
                 ...state,
-                messages: action.messagesList.map((e: any) => {return {
+                messages: action.messagesList.map((e: any) => {
+                    return {
                         senderId: e.id,
                         message: e.body,
                         userId: e.senderId
